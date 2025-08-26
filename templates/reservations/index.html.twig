@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reservations index{% endblock %}
+
+{% block body %}
+    <h1>Reservations index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>StartAt</th>
+                <th>EndAt</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>ReminderSentAt</th>
+                <th>ValidatedAt</th>
+                <th>ReservationStatus</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for reservation in reservations %}
+            <tr>
+                <td>{{ reservation.id }}</td>
+                <td>{{ reservation.startAt ? reservation.startAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ reservation.endAt ? reservation.endAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ reservation.createdAt ? reservation.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ reservation.updatedAt ? reservation.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ reservation.reminderSentAt ? reservation.reminderSentAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ reservation.validatedAt ? reservation.validatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ reservation.reservationStatus ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_reservations_show', {'id': reservation.id}) }}">show</a>
+                    <a href="{{ path('app_reservations_edit', {'id': reservation.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_reservations_new') }}">Create new</a>
+{% endblock %}
