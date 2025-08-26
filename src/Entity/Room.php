@@ -38,6 +38,7 @@ class Room
      * @var Collection<int, Options>
      */
     #[ORM\ManyToMany(targetEntity: Options::class, inversedBy: 'rooms')]
+    #[ORM\JoinTable(name: 'room_options')]
     private Collection $options;
 
     public function __construct()

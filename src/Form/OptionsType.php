@@ -21,6 +21,7 @@ class OptionsType extends AbstractType
                 'class' => Room::class,
                 'choice_label' => 'id',
                 'multiple' => true,
+                'required' => false,
             ])
         ;
     }

@@ -20,8 +20,10 @@ class RoomType extends AbstractType
             ->add('description')
             ->add('options', EntityType::class, [
                 'class' => Options::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
                 'multiple' => true,
+                'expanded' => true,
+                'label' => 'Options disponibles'
             ])
         ;
     }
