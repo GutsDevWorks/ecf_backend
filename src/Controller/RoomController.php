@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/room')]
 final class RoomController extends AbstractController
@@ -23,6 +24,7 @@ final class RoomController extends AbstractController
     }
 
     #[Route('/new', name: 'app_room_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')] // Juste admin peut créer un salle
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $room = new Room();
@@ -51,6 +53,7 @@ final class RoomController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_room_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')] // Juste admin peut modifier un salle
     public function edit(Request $request, Room $room, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(RoomType::class, $room);
@@ -69,6 +72,7 @@ final class RoomController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_room_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_ADMIN')] // Juste admin peut supprimer un salle
     public function delete(Request $request, Room $room, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$room->getId(), $request->getPayload()->getString('_token'))) {
