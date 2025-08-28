@@ -27,6 +27,7 @@ class Room
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
+    
 
     /**
      * @var Collection<int, Reservations>

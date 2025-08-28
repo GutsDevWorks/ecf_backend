@@ -9,16 +9,46 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/room')]
 final class RoomController extends AbstractController
 {
     #[Route(name: 'app_room_index', methods: ['GET'])]
-    public function index(RoomRepository $roomRepository): Response
+    public function index(RoomRepository $roomRepository, Request $request): Response
     {
+        // Récupération de la capacité
+        $capacity = $request->query->get('capacity');
+        $capacity = is_numeric($capacity) ? (int)$capacity : null;
+
+        // Récupération des options (checkboxes)
+        $types = $request->query->all('type'); // toujours un tableau
+        if (!is_array($types)) {
+            $types = [];
+        }
+
+        $qb = $roomRepository->createQueryBuilder('r');
+
+        // Filtre par capacité
+        if ($capacity !== null) {
+            $qb->andWhere('r.capacity >= :capacity')
+               ->setParameter('capacity', $capacity);
+        }
+
+        // Filtre par options
+        if (!empty($types)) {
+            $qb->join('r.options', 'o')
+               ->andWhere('o.name IN (:types)')
+               ->setParameter('types', $types)
+               ->groupBy('r.id')
+               ->having('COUNT(DISTINCT o.id) = :typesCount')
+               ->setParameter('typesCount', count($types));
+        }
+
+        $rooms = $qb->getQuery()->getResult();
+
         return $this->render('room/index.html.twig', [
-            'rooms' => $roomRepository->findAll(),
+            'rooms' => $rooms,
         ]);
     }
 
@@ -38,7 +68,7 @@ final class RoomController extends AbstractController
 
         return $this->render('room/new.html.twig', [
             'room' => $room,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -64,14 +94,14 @@ final class RoomController extends AbstractController
 
         return $this->render('room/edit.html.twig', [
             'room' => $room,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
     #[Route('/{id}', name: 'app_room_delete', methods: ['POST'])]
     public function delete(Request $request, Room $room, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$room->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$room->getId(), $request->request->get('_token'))) {
             $entityManager->remove($room);
             $entityManager->flush();
         }

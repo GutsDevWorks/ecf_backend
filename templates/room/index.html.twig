@@ -1,22 +1,148 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Room index{% endblock %}
+{% block title %}Salles{% endblock %}
 
 {% block body %}
-    <h1>Room index</h1>
+<h1>Salles</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Location</th>
-                <th>Capacity</th>
-                <th>Description</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+<form method="get" action="{{ path('app_room_index') }}">
+    <div>
+        <label for="capacity">Capacité :</label>
+        <input type="number" id="capacity" name="capacity" value="{{ app.request.get('capacity')|e }}">
+    </div>
+
+    <div>
+        <label>Équipements et critères d'ergonomie :</label>
+        <div style="border: 1px solid #ccc; padding: 15px; max-height: 400px; overflow-y: auto; background-color: #f9f9f9;">
+            
+            {% set selectedTypes = app.request.query.all('type') %}
+            
+            {# Mobilier #}
+            <h4>Équipements essentiels - Mobilier</h4>
+            <label>
+                <input type="checkbox" name="type[]" value="Tables modulables ou extensibles" 
+                    {{ 'Tables modulables ou extensibles' in selectedTypes ? 'checked' : '' }}> Tables modulables ou extensibles
+            </label>
+            <label>
+                <input type="checkbox" name="type[]" value="Chaises confortables et réglables" 
+                    {{ 'Chaises confortables et réglables' in selectedTypes ? 'checked' : '' }}> Chaises confortables et réglables
+            </label>
+            <label>
+                <input type="checkbox" name="type[]" value="Poufs ou sièges supplémentaires" 
+                    {{ 'Poufs ou sièges supplémentaires' in selectedTypes ? 'checked' : '' }}> Poufs ou sièges supplémentaires
+            </label>
+
+            {# Technologie #}
+            <h4>Technologie</h4>
+            <label>
+                <input type="checkbox" name="type[]" value="Écran ou vidéoprojecteur" 
+                    {{ 'Écran ou vidéoprojecteur' in selectedTypes ? 'checked' : '' }}> Écran ou vidéoprojecteur
+            </label>
+            <label>
+                <input type="checkbox" name="type[]" value="Connexion Wi-Fi haut débit" 
+                    {{ 'Connexion Wi-Fi haut débit' in selectedTypes ? 'checked' : '' }}> Connexion Wi-Fi haut débit
+            </label>
+            <label>
+                <input type="checkbox" name="type[]" value="Système de visioconférence" 
+                    {{ 'Système de visioconférence' in selectedTypes ? 'checked' : '' }}> Système de visioconférence
+            </label>
+            <label>
+                <input type="checkbox" name="type[]" value="Prises électriques et ports USB accessibles" 
+                    {{ 'Prises électriques et ports USB accessibles' in selectedTypes ? 'checked' : '' }}> Prises électriques et ports USB
+            </label>
+            <label>
+                <input type="checkbox" name="type[]" value="Tableau blanc ou interactif / paperboard" 
+                    {{ 'Tableau blanc ou interactif / paperboard' in selectedTypes ? 'checked' : '' }}> Tableau blanc / interactif / paperboard
+            </label>
+
+            {# Confort général #}
+            <h4>Confort général</h4>
+            <label>
+                <input type="checkbox" name="type[]" value="Climatisation ou chauffage réglable" 
+                    {{ 'Climatisation ou chauffage réglable' in selectedTypes ? 'checked' : '' }}> Climatisation ou chauffage réglable
+            </label>
+            <label>
+                <input type="checkbox" name="type[]" value="Stores ou rideaux" 
+                    {{ 'Stores ou rideaux' in selectedTypes ? 'checked' : '' }}> Stores ou rideaux
+            </label>
+            <label>
+                <input type="checkbox" name="type[]" value="Mini-frigo, machine à café, eau à disposition" 
+                    {{ 'Mini-frigo, machine à café, eau à disposition' in selectedTypes ? 'checked' : '' }}> Mini-frigo, machine à café, eau à disposition
+            </label>
+
+            {# Confort physique, Accessibilité, Éclairage, Acoustique #}
+            <h4>Critères ergonomiques - Confort physique</h4>
+            <label>
+                <input type="checkbox" name="type[]" value="Chaises avec soutien lombaire" 
+                    {{ 'Chaises avec soutien lombaire' in selectedTypes ? 'checked' : '' }}> Chaises avec soutien lombaire
+            </label>
+            <label>
+                <input type="checkbox" name="type[]" value="Tables à hauteur adaptée" 
+                    {{ 'Tables à hauteur adaptée' in selectedTypes ? 'checked' : '' }}> Tables à hauteur adaptée
+            </label>
+            <label>
+                <input type="checkbox" name="type[]" value="Espacement suffisant entre les sièges" 
+                    {{ 'Espacement suffisant entre les sièges' in selectedTypes ? 'checked' : '' }}> Espacement suffisant entre les sièges
+            </label>
+
+            <h4>Accessibilité</h4>
+            <label>
+                <input type="checkbox" name="type[]" value="Accès pour personnes à mobilité réduite" 
+                    {{ 'Accès pour personnes à mobilité réduite' in selectedTypes ? 'checked' : '' }}> Accès PMR
+            </label>
+            <label>
+                <input type="checkbox" name="type[]" value="Portes larges et circulation fluide" 
+                    {{ 'Portes larges et circulation fluide' in selectedTypes ? 'checked' : '' }}> Portes larges et circulation fluide
+            </label>
+
+            <h4>Éclairage</h4>
+            <label>
+                <input type="checkbox" name="type[]" value="Lumière naturelle maximale" 
+                    {{ 'Lumière naturelle maximale' in selectedTypes ? 'checked' : '' }}> Lumière naturelle maximale
+            </label>
+            <label>
+                <input type="checkbox" name="type[]" value="Éclairage artificiel non éblouissant" 
+                    {{ 'Éclairage artificiel non éblouissant' in selectedTypes ? 'checked' : '' }}> Éclairage artificiel non éblouissant
+            </label>
+            <label>
+                <input type="checkbox" name="type[]" value="Possibilité de régler l’intensité" 
+                    {{ 'Possibilité de régler l’intensité' in selectedTypes ? 'checked' : '' }}> Intensité réglable
+            </label>
+
+            <h4>Acoustique</h4>
+            <label>
+                <input type="checkbox" name="type[]" value="Isolation phonique" 
+                    {{ 'Isolation phonique' in selectedTypes ? 'checked' : '' }}> Isolation phonique
+            </label>
+            <label>
+                <input type="checkbox" name="type[]" value="Réverbération limitée" 
+                    {{ 'Réverbération limitée' in selectedTypes ? 'checked' : '' }}> Réverbération limitée
+            </label>
+            <label>
+                <input type="checkbox" name="type[]" value="Système audio clair" 
+                    {{ 'Système audio clair' in selectedTypes ? 'checked' : '' }}> Système audio clair
+            </label>
+        </div>
+    </div>
+
+    <div>
+        <button type="submit">Rechercher</button>
+        <a href="{{ path('app_room_index') }}">Réinitialiser</a>
+    </div>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Capacity</th>
+            <th>Description</th>
+            <th>actions</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for room in rooms %}
             <tr>
                 <td>{{ room.id }}</td>
@@ -34,8 +160,8 @@
                 <td colspan="6">no records found</td>
             </tr>
         {% endfor %}
-        </tbody>
-    </table>
+    </tbody>
+</table>
 
-    <a href="{{ path('app_room_new') }}">Create new</a>
+<a href="{{ path('app_room_new') }}">Create new</a>
 {% endblock %}

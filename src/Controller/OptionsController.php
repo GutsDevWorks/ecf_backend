@@ -15,10 +15,30 @@ use Symfony\Component\Routing\Attribute\Route;
 final class OptionsController extends AbstractController
 {
     #[Route(name: 'app_options_index', methods: ['GET'])]
-    public function index(OptionsRepository $optionsRepository): Response
-    {
+    public function index(OptionsRepository $optionsRepository, Request $request): Response     # DEBUT DE MODIFICATION#
+
+{
+
+        $name = $request->query->get('name');     // Récupération des paramètres de recherche envoyés dans l'URL (GET)
+        $type = $request->query->get('type');
+
+        $qb = $optionsRepository->createQueryBuilder('o');       // Création d'un QueryBuilder sur l'entité Options
+
+        if ($name) {                              // Si un nom est fourni, on filtre les résultats avec une recherche partielle (LIKE)
+            $qb->andWhere('o.name LIKE :name')
+               ->setParameter('name', '%'.$name.'%');
+        }
+
+        if ($type) {                  // Si un type est fourni, on applique également un filtre sur ce champ
+            $qb->andWhere('o.type LIKE :type')
+               ->setParameter('type', '%'.$type.'%');
+        }
+
+        $options = $qb->getQuery()->getResult();   #FIN DE MODIFICATION#     // Exécution de la requête et récupération des résultats
+
+
         return $this->render('options/index.html.twig', [
-            'options' => $optionsRepository->findAll(),
+            'options' => $options,  #MODIFICATION#
         ]);
     }
 
