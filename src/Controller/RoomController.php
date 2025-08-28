@@ -34,17 +34,17 @@ final class RoomController extends AbstractController
         // Filtre par capacité
         if ($capacity !== null) {
             $qb->andWhere('r.capacity >= :capacity')
-               ->setParameter('capacity', $capacity);
+                ->setParameter('capacity', $capacity);
         }
 
         // Filtre par options
         if (!empty($types)) {
             $qb->join('r.options', 'o')
-               ->andWhere('o.name IN (:types)')
-               ->setParameter('types', $types)
-               ->groupBy('r.id')
-               ->having('COUNT(DISTINCT o.id) = :typesCount')
-               ->setParameter('typesCount', count($types));
+                ->andWhere('o.name IN (:types)')
+                ->setParameter('types', $types)
+                ->groupBy('r.id')
+                ->having('COUNT(DISTINCT o.id) = :typesCount')
+                ->setParameter('typesCount', count($types));
         }
 
         $rooms = $qb->getQuery()->getResult();
@@ -55,9 +55,13 @@ final class RoomController extends AbstractController
     }
 
     #[Route('/new', name: 'app_room_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_ADMIN')] // Juste admin peut créer un salle
+    // #[IsGranted('ROLE_ADMIN')] // Juste admin peut créer un salle
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_error');
+        }
+        
         $room = new Room();
         $form = $this->createForm(RoomType::class, $room);
         $form->handleRequest($request);
@@ -91,6 +95,13 @@ final class RoomController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Récupérer le fichier envoyé par le formulaire
+            $photoFile = $form->get('photo')->getData(); // recupère le photo
+            $photoFileName = $room->getId() . '.' . $photoFile->getClientOriginalExtension(); // nom du fichier de photo
+            // déplacer le fichier dans le dossier de destination
+            $photoFile->move($this->getParameter('kernel.project_dir').'/public/room/img', $photoFileName); // déplacer le photo dans le dossier
+            $room->setPhoto($photoFileName); // mettre à jour l'URL de la photo
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_room_index', [], Response::HTTP_SEE_OTHER);

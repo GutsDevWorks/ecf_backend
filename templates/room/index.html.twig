@@ -138,6 +138,7 @@
             <th>Name</th>
             <th>Location</th>
             <th>Capacity</th>
+            <th>Photo</th>
             <th>Description</th>
             <th>actions</th>
         </tr>
@@ -149,6 +150,7 @@
                 <td>{{ room.name }}</td>
                 <td>{{ room.location }}</td>
                 <td>{{ room.capacity }}</td>
+                <td><img src="/room/img/{{ room.photo }}" alt="{{ room.name}}" width="100"></td>
                 <td>{{ room.description }}</td>
                 <td>
                     <a href="{{ path('app_room_show', {'id': room.id}) }}">show</a>
