@@ -8,7 +8,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-
 #[ORM\Entity(repositoryClass: OptionsRepository::class)]
 class Options
 {
@@ -26,9 +25,6 @@ class Options
     #[ORM\Column(length: 255)]
     private ?string $type = null;
 
-    /**
-     * @var Collection<int, Room>
-     */
     #[ORM\ManyToMany(targetEntity: Room::class, mappedBy: 'options')]
     private Collection $rooms;
 
@@ -78,9 +74,6 @@ class Options
         return $this;
     }
 
-    /**
-     * @return Collection<int, Room>
-     */
     public function getRooms(): Collection
     {
         return $this->rooms;

@@ -27,17 +27,10 @@ class Room
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
-    
 
-    /**
-     * @var Collection<int, Reservations>
-     */
     #[ORM\OneToMany(targetEntity: Reservations::class, mappedBy: 'roomId')]
     private Collection $reservations;
 
-    /**
-     * @var Collection<int, Options>
-     */
     #[ORM\ManyToMany(targetEntity: Options::class, inversedBy: 'rooms')]
     #[ORM\JoinTable(name: 'room_options')]
     private Collection $options;
@@ -101,9 +94,6 @@ class Room
         return $this;
     }
 
-    /**
-     * @return Collection<int, Reservations>
-     */
     public function getReservations(): Collection
     {
         return $this->reservations;
@@ -122,7 +112,6 @@ class Room
     public function removeReservation(Reservations $reservation): static
     {
         if ($this->reservations->removeElement($reservation)) {
-            // set the owning side to null (unless already changed)
             if ($reservation->getRoomId() === $this) {
                 $reservation->setRoomId(null);
             }
@@ -131,9 +120,6 @@ class Room
         return $this;
     }
 
-    /**
-     * @return Collection<int, Options>
-     */
     public function getOptions(): Collection
     {
         return $this->options;

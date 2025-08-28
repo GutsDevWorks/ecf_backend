@@ -15,30 +15,27 @@ use Symfony\Component\Routing\Attribute\Route;
 final class OptionsController extends AbstractController
 {
     #[Route(name: 'app_options_index', methods: ['GET'])]
-    public function index(OptionsRepository $optionsRepository, Request $request): Response     # DEBUT DE MODIFICATION#
-
-{
-
-        $name = $request->query->get('name');     // Récupération des paramètres de recherche envoyés dans l'URL (GET)
+    public function index(OptionsRepository $optionsRepository, Request $request): Response
+    {
+        $name = $request->query->get('name');
         $type = $request->query->get('type');
 
-        $qb = $optionsRepository->createQueryBuilder('o');       // Création d'un QueryBuilder sur l'entité Options
+        $qb = $optionsRepository->createQueryBuilder('o');
 
-        if ($name) {                              // Si un nom est fourni, on filtre les résultats avec une recherche partielle (LIKE)
+        if ($name) {
             $qb->andWhere('o.name LIKE :name')
-               ->setParameter('name', '%'.$name.'%');
+                ->setParameter('name', '%' . $name . '%');
         }
 
-        if ($type) {                  // Si un type est fourni, on applique également un filtre sur ce champ
+        if ($type) {
             $qb->andWhere('o.type LIKE :type')
-               ->setParameter('type', '%'.$type.'%');
+                ->setParameter('type', '%' . $type . '%');
         }
 
-        $options = $qb->getQuery()->getResult();   #FIN DE MODIFICATION#     // Exécution de la requête et récupération des résultats
-
+        $options = $qb->getQuery()->getResult();
 
         return $this->render('options/index.html.twig', [
-            'options' => $options,  #MODIFICATION#
+            'options' => $options,
         ]);
     }
 
@@ -91,7 +88,7 @@ final class OptionsController extends AbstractController
     #[Route('/{id}', name: 'app_options_delete', methods: ['POST'])]
     public function delete(Request $request, Options $option, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$option->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $option->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($option);
             $entityManager->flush();
         }
