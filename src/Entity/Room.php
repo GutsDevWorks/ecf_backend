@@ -35,6 +35,9 @@ class Room
     #[ORM\JoinTable(name: 'room_options')]
     private Collection $options;
 
+    #[ORM\Column(length: 255, nullable: true)] // URL de la photo
+    private ?string $photo = null;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
@@ -137,6 +140,18 @@ class Room
     public function removeOption(Options $option): static
     {
         $this->options->removeElement($option);
+
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): static
+    {
+        $this->photo = $photo;
 
         return $this;
     }

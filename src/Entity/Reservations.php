@@ -25,7 +25,7 @@ class Reservations
     #[ORM\Column(nullable: true)]
     private ?\DateTime $updatedAt = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $reminderSentAt = null;
 
     #[ORM\Column(nullable: true)]

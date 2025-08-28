@@ -9,7 +9,11 @@
 		<div class="container">
 			{% include "components/_adminnav.html.twig" %}
 		</div>
+
+		<section id="admin-content">
+			<p>Sélectionner un élément dans le menu pour l'afficher.</p>
+		</section>
 	</main>
 
-
+	<script src="{{ asset('js/admin-dashboard.js') }}"></script>
 {% endblock %}

@@ -5,6 +5,8 @@
 {% block body %}
     <h1>Edit Room</h1>
 
+    <img src="/room/img/{{ room.photo }}" alt="{{ room.name}}" width="200">
+
     {{ include('room/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('app_room_index') }}">back to list</a>
