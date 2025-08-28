@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page introuvable{% endblock %}
+
+{% block body %}
+    <h1>Page introuvable</h1>
+    
+    <p>La page n'a pas été trouvée </p>
+    
+    <a href="{{ path('app_room_index') }}"> Retournez à l'accueil </a>
+
+    
+{% endblock %}
