@@ -1,40 +1,40 @@
 <aside>
     <article>
         <div>
-            Réservations
+            <h3>Réservations</h3>
         </div>
         <div>
-            <p><a href="{{ path('app_reservations_index') }}">Liste des réservations</a></p>
+            <p><a href="{{ path('admin_reservations_index') }}" data-load>Liste des réservations</a></p>
             <p><a href="">Réservations à venir</a></p>
         </div>
     </article>
 
     <article>
         <div>
-            Salles
+            <h3>Salles</h3>
         </div>
         <div>
-            <p><a href="{{ path('app_room_index') }}">Liste des salles</a></p>
-            <p><a href="{{ path('app_room_new') }}">Ajouter une salle</a></p>
-        </div>
-    </article>
-
-    <article>
-        <div>
-            Options
-        </div>
-        <div>
-            <p><a href="{{ path('app_options_index') }}">Liste des options</a></p>
-            <p><a href="{{ path('app_options_new') }}">Ajouter une option</a></p>
+            <p><a href="{{ path('admin_room_index') }}" data-load>Liste des salles</a></p>
+            <p><a href="{{ path('admin_room_new') }}" data-load>Ajouter une salle</a></p>
         </div>
     </article>
 
     <article>
         <div>
-            Utilisateurs
+            <h3>Options</h3>
         </div>
         <div>
-            <p><a href="{{ path('app_user_index') }}">Liste des utilisateurs</a></p>
+            <p><a href="{{ path('admin_options_index') }}" data-load >Liste des options</a></p>
+            <p><a href="{{ path('admin_options_new') }}" data-load>Ajouter une option</a></p>
+        </div>
+    </article>
+
+    <article>
+        <div>
+            <h3>Utilisateurs</h3>
+        </div>
+        <div>
+            <p><a href="{{ path('admin_user_index') }}" data-load>Liste des utilisateurs</a></p>
         </div>
     </article>
 

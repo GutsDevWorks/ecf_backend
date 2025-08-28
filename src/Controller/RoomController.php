@@ -34,17 +34,17 @@ final class RoomController extends AbstractController
         // Filtre par capacité
         if ($capacity !== null) {
             $qb->andWhere('r.capacity >= :capacity')
-               ->setParameter('capacity', $capacity);
+                ->setParameter('capacity', $capacity);
         }
 
         // Filtre par options
         if (!empty($types)) {
             $qb->join('r.options', 'o')
-               ->andWhere('o.name IN (:types)')
-               ->setParameter('types', $types)
-               ->groupBy('r.id')
-               ->having('COUNT(DISTINCT o.id) = :typesCount')
-               ->setParameter('typesCount', count($types));
+                ->andWhere('o.name IN (:types)')
+                ->setParameter('types', $types)
+                ->groupBy('r.id')
+                ->having('COUNT(DISTINCT o.id) = :typesCount')
+                ->setParameter('typesCount', count($types));
         }
 
         $rooms = $qb->getQuery()->getResult();
@@ -106,7 +106,7 @@ final class RoomController extends AbstractController
     #[IsGranted('ROLE_ADMIN')] // Juste admin peut supprimer un salle
     public function delete(Request $request, Room $room, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$room->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $room->getId(), $request->request->get('_token'))) {
             $entityManager->remove($room);
             $entityManager->flush();
         }

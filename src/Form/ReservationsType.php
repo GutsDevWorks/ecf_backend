@@ -51,11 +51,11 @@ class ReservationsType extends AbstractType
             // ->add('validatedAt', null, [
             //     'widget' => 'single_text'
             // ])
-            ->add('reservationStatus')
-            // ->add('userId', EntityType::class, [
-            //     'class' => User::class,
-            //     'choice_label' => 'firstname',
-            // ])
+            // ->add('reservationStatus')
+            // // ->add('userId', EntityType::class, [
+            // //     'class' => User::class,
+            // //     'choice_label' => 'firstname',
+            // // ])
             ->add('roomId', EntityType::class, [
                 'class' => Room::class,
                 'choice_label' => 'name',

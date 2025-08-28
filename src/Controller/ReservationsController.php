@@ -29,6 +29,7 @@ final class ReservationsController extends AbstractController
     {
         $reservation = new Reservations();
         $reservation->setUserId($this->getUser()); // associer la réservation à l'utilisateur connecté
+        $reservation->setCreatedAt(new \DateTimeImmutable());
         $form = $this->createForm(ReservationsType::class, $reservation);
         $form->handleRequest($request);
 
