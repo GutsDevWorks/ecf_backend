@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Récupération de tous les liens avec l'attribut data-load 
 
     document.querySelectorAll("a[data-load]").forEach(link => {
-        link.addEventListener("click", function (e) {
-            e.preventDefault(); // empêche le changement de page
+        link.addEventListener("click", function (event) {
+            event.preventDefault(); // empêche le changement de page
             const url = this.getAttribute("href");
 
             // Chargement du contenu à afficher via fetch
