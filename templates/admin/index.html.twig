@@ -10,6 +10,18 @@
 			{% include "components/_adminnav.html.twig" %}
 		</div>
 
+			{% if reminders is not empty %}
+				<section>
+					<ul>
+						{% for reservation in reminders %}
+							<li>
+								La réservation de {{ reservation.userId.firstname }} prévue pour le {{ reservation.startAt|date('Y-m-d') }} est toujours en attente d'une action de votre part.
+							</li>
+						{% endfor %}
+					</ul>
+				</section>
+			{% endif %}
+
 		<section id="admin-content">
 			<p>Sélectionner un élément dans le menu pour l'afficher.</p>
 		</section>

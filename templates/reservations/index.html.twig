@@ -29,7 +29,7 @@
                 <td>{{ reservation.updatedAt ? reservation.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ reservation.reminderSentAt ? reservation.reminderSentAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ reservation.validatedAt ? reservation.validatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ reservation.reservationStatus ? 'Yes' : 'No' }}</td>
+                <td>{{ reservation.reservationStatus is same as(true) ? 'Validée' : (reservation.reservationStatus is same as(false) ? 'Refusée' : 'En attente') }}</td>
                 <td>{{ reservation.userId.firstname }}</td>
                 <td>
                     <a href="{{ path('app_reservations_show', {'id': reservation.id}) }}">show</a>

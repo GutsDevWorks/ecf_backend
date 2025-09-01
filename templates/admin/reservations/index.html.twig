@@ -25,8 +25,30 @@
                 <td>{{ reservation.updatedAt ? reservation.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ reservation.reminderSentAt ? reservation.reminderSentAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ reservation.validatedAt ? reservation.validatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ reservation.reservationStatus ? 'Yes' : 'No' }}</td>
+                <td>
+                    {% if reservation.reservationStatus is null %}
+                        En attente
+                    {% elseif reservation.reservationStatus %}
+                        Validée
+                    {% else %}
+                        Refusée
+                    {% endif %}
+                </td>
+
                 <td>{{ reservation.userId.firstname }}</td>
+
+                <td>
+                    {# Bouton permettant de valider ou refuser une reservation uniquement si celle-ci à un statut en attente #}
+                    {% if reservation.reservationStatus is null %}
+                        <form action="{{ path('admin_reservations_validate', {'id': reservation.id}) }}" method="post" style="display:inline">
+                            <button class="btn-validate" type="submit">Valider</button>
+                        </form>
+                        <form action="{{ path('admin_reservations_refuse', {'id': reservation.id}) }}" method="post" style="display:inline">
+                            <button class="btn-refuse" type="submit">Refuser</button>
+                        </form>
+                    {% endif %}
+                </td>
+
                 <td>
                     <a href="{{ path('app_reservations_show', {'id': reservation.id}) }}">show</a>
                     <a href="{{ path('app_reservations_edit', {'id': reservation.id}) }}">edit</a>

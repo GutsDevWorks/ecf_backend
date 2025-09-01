@@ -1,0 +1,35 @@
+{% block body %}
+<h1>Réservations en attente</h1>
+
+{% if pendingReservations is not empty %}
+	<table>
+		<thead>
+			<tr>
+				<th>Date de début</th>
+				<th>Date de fin</th>
+				<th>Faite le</th>
+				<th>Statut</th>
+				<th>Utilisateurs</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			{% for reservation in pendingReservations %}
+				<tr>
+					<td>{{ reservation.startAt ? reservation.startAt|date('Y-m-d H:i:s') : '' }}</td>
+					<td>{{ reservation.endAt ? reservation.endAt|date('Y-m-d H:i:s') : '' }}</td>
+					<td>{{ reservation.createdAt ? reservation.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+					<td>
+                        {% if reservation.reservationStatus is null %}
+                        En attente
+                        {% endif %}
+                    </td>
+					<td>{{ reservation.userId.firstname }}</td>
+				</tr>
+			</tbody>
+		</tbody>
+	</table>
+        {% endfor %}
+    {% endif %}
+
+{% endblock %}
