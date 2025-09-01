@@ -13,6 +13,19 @@
     </head>
     <body>
         {% include "components/_nav.html.twig" %}
+
+            {# Messages flash globaux #}
+<div class="container mt-3">
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            {% if type == 'error' %}
+                <p style="color: red;">{{ message }}</p>
+            {% else %}
+                <p>{{ message }}</p>
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+</div>
         
         {% block body %}{% endblock %}
     </body>
