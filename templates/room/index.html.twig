@@ -1,3 +1,4 @@
+
 {% extends 'base.html.twig' %}
 
 {% block title %}Salles
@@ -77,25 +78,52 @@
 	<table style="width:100%; border-collapse:collapse; background:#fff;">
 		<thead>
 			<tr>
-				<th>Id</th>
-				<th>Name</th>
-				<th>Location</th>
-				<th>Capacity</th>
-				<th>Description</th>
-				<th>actions</th>
+				<th style="border:1px solid #ccc; padding:8px; background:#eee;">Id</th>
+				<th style="border:1px solid #ccc; padding:8px; background:#eee;">Name</th>
+				<th style="border:1px solid #ccc; padding:8px; background:#eee;">Location</th>
+				<th style="border:1px solid #ccc; padding:8px; background:#eee;">Capacity</th>
+				<th style="border:1px solid #ccc; padding:8px; background:#eee;">Photo</th>
+				<th style="border:1px solid #ccc; padding:8px; background:#eee;">Description</th>
+				<th style="border:1px solid #ccc; padding:8px; background:#eee;">Actions</th>
 			</tr>
 		</thead>
 		<tbody>
 			{% for room in rooms %}
-				<tr>
-					<td>{{ room.id }}</td>
-					<td>{{ room.name }}</td>
-					<td>{{ room.location }}</td>
-					<td>{{ room.capacity }}</td>
-					<td>{{ room.description }}</td>
-					<td>
-						<a href="{{ path('app_room_show', {'id': room.id}) }}">show</a>
-						<a href="{{ path('app_room_edit', {'id': room.id}) }}">edit</a>
+				<tr style="border:1px solid #ccc;">
+					<!-- Identifiant -->
+					<td style="border:1px solid #ccc; padding:8px;">{{ room.id }}</td>
+
+					<!-- Nom -->
+					<td style="border:1px solid #ccc; padding:8px;">{{ room.name }}</td>
+
+					<!-- Localisation -->
+					<td style="border:1px solid #ccc; padding:8px;">{{ room.location }}</td>
+
+					<!-- Capacité -->
+					<td style="border:1px solid #ccc; padding:8px;">{{ room.capacity }}</td>
+
+					<!-- Affiche photo si disponible -->
+					<td style="border:1px solid #ccc; padding:8px;">
+						{% if room.photo %}
+							<img src="{{ asset('room/img/' ~ room.photo) }}" alt="{{ room.name }}" width="200">
+						{% else %}
+							<em>Aucune photo</em>
+						{% endif %}
+					</td>
+
+					<!-- Description -->
+					<td style="border:1px solid #ccc; padding:8px;">{{ room.description }}</td>
+
+					<!-- Actions (voir + modifier) -->
+					<td style="border:1px solid #ccc; padding:8px; text-align:center;">
+						<div style="display:flex; justify-content:center; gap:10px;">
+							<a href="{{ path('app_room_show', {'id': room.id}) }}" style="display:inline-block; padding:6px 12px; background:#007bff; color:#fff; border-radius:3px; text-decoration:none;">
+								Show
+							</a>
+							<a href="{{ path('app_room_edit', {'id': room.id}) }}" style="display:inline-block; padding:6px 12px; background:#ffc107; color:#000; border-radius:3px; text-decoration:none;">
+								Edit
+							</a>
+						</div>
 					</td>
 				</tr>
 			{% else %}
@@ -111,4 +139,17 @@
 	<a href="{{ path('app_room_new') }}" style="display:inline-block; margin-top:15px; padding:6px 12px; background:#28a745; color:#fff; border-radius:3px; text-decoration:none;">
 		Create new
 	</a>
+
+	<!-- Pagination -->
+	<div class="d-flex">
+		{% if page > 1 %}
+			<a href="{{ path('app_room_index', {page: page - 1}) }}" class="btn btn-secondary"> Précédente</a>
+		{% endif %}
+
+		<span> {{ page }} | {{ maxPage }}</span>
+
+		{% if page < maxPage %}
+			<a href="{{ path('app_room_index', {page: page + 1}) }}" class="btn btn-secondary"> Suivante</a>
+		{% endif %}
+	</div>
 {% endblock %}

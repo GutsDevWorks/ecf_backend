@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250829071444 extends AbstractMigration
+final class Version20250828085401 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,7 +20,6 @@ final class Version20250829071444 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE reservations CHANGE reminder_sent_at reminder_sent_at DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\'');
         $this->addSql('ALTER TABLE room ADD photo VARCHAR(255) DEFAULT NULL');
     }
 
@@ -28,6 +27,5 @@ final class Version20250829071444 extends AbstractMigration
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE room DROP photo');
-        $this->addSql('ALTER TABLE reservations CHANGE reminder_sent_at reminder_sent_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\'');
     }
 }

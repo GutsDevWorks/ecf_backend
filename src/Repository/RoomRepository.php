@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Room;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -24,6 +26,16 @@ class RoomRepository extends ServiceEntityRepository
         parent::__construct($registry, Room::class);
     }
 
+    // Pagination des résultats pour les salles
+    public function paginateRoom(int $page, int $limit, QueryBuilder $qb): Paginator
+    {
+        $query = $qb
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit) // limite le nombre de résultats par page
+            ->getQuery()
+            ->setHint(Paginator::HINT_ENABLE_DISTINCT, false); // évite les doublons avec les jointures  
+        return new Paginator($query); 
+    }
     // Exemple de méthode personnalisée générée par défaut (commentée)
     // Permettrait de rechercher des salles selon un champ fictif "exampleField"
     // Retourne un tableau d’objets Room

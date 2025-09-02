@@ -79,4 +79,17 @@
 
 	<!-- Lien pour créer une nouvelle option -->
 	<a href="{{ path('app_options_new') }}">Create new</a>
+
+	<!-- Pagination -->
+	<div class="d-flex">
+		{% if page > 1 %}
+			<a href="{{ path('app_options_index', {page: page - 1}) }}" class="btn btn-secondary"> Précédente</a>
+		{% endif %}
+
+		<span> {{ page }} | {{ maxPage }}</span>
+
+		{% if page < maxPage %}
+			<a href="{{ path('app_options_index', {page: page + 1}) }}" class="btn btn-secondary"> Suivante</a>
+		{% endif %}
+	</div>
 {% endblock %}
