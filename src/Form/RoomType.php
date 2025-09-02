@@ -33,7 +33,6 @@ class RoomType extends AbstractType
                         'message' => 'Veuillez saisir un nombre positif',
                     ]),
                 ],
-                'html5' => true, // active les contrôles HTML5 natifs (flèches ↑↓)
                 'attr' => [
                     'min' => 0, // empêche la saisie de valeurs négatives côté navigateur
                 ],

@@ -1,3 +1,4 @@
+
 {% extends 'base.html.twig' %}
 
 {% block title %}Salles
@@ -139,4 +140,17 @@
 	<a href="{{ path('app_room_new') }}" style="display:inline-block; margin-top:15px; padding:6px 12px; background:#28a745; color:#fff; border-radius:3px; text-decoration:none;">
 		Create new
 	</a>
+
+	<!-- Pagination -->
+	<div class="d-flex">
+		{% if page > 1 %}
+			<a href="{{ path('app_room_index', {page: page - 1}) }}" class="btn btn-secondary"> Précédente</a>
+		{% endif %}
+
+		<span> {{ page }} | {{ maxPage }}</span>
+
+		{% if page < maxPage %}
+			<a href="{{ path('app_room_index', {page: page + 1}) }}" class="btn btn-secondary"> Suivante</a>
+		{% endif %}
+	</div>
 {% endblock %}

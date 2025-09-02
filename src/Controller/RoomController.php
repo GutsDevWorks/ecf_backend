@@ -57,11 +57,19 @@ final class RoomController extends AbstractController
         }
 
         // Exécution de la requête et récupération des salles
-        $rooms = $qb->getQuery()->getResult();
+        // $rooms = $qb->getQuery()->getResult();
+
+        // Pagination
+        $page = $request->query->getInt('page', 1);
+        $limit = 2; //Nombre salle par page
+        $rooms = $roomRepository->paginateRoom($page, $limit, $qb);
+        $maxPage = ceil(count($rooms) / $limit);
 
         // Affichage dans le template
         return $this->render('room/index.html.twig', [
             'rooms' => $rooms,
+            'page' => $page,
+            'maxPage' => $maxPage,
         ]);
     }
 
