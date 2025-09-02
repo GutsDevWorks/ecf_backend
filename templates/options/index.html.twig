@@ -4,27 +4,39 @@
 {% endblock %}
 
 {% block body %}
+	<!-- Titre principal -->
 	<h1>Options</h1>
 
+	<!-- Formulaire de recherche et filtrage -->
 	<form method="get" action="{{ path('app_options_index') }}">
 		<div>
+			<!-- Champ texte pour rechercher par nom -->
 			<label for="name">Rechercher:</label>
 			<input type="text" id="name" name="name" value="{{ app.request.get('name') }}">
 		</div>
+
 		<div>
+			<!-- Liste déroulante pour filtrer par type -->
 			<label for="type">Type:</label>
 			<select id="type" name="type">
+				<!-- Option par défaut = tous les types -->
 				<option value="">-- Tous les types --</option>
+
+				<!-- Liste des types prédéfinis -->
 				{% set types = ['Mobilier', 'Technologie', 'Confort', 'Confort physique', 'Accessibilité', 'Éclairage', 'Acoustique'] %}
 				{% for t in types %}
+					<!-- Si le type sélectionné correspond à l’option actuelle, on la marque "selected" -->
 					<option value="{{ t }}" {% if app.request.get('type') == t %} selected {% endif %}>{{ t }}</option>
 				{% endfor %}
 			</select>
 		</div>
+
+		<!-- Boutons recherche et reset -->
 		<button type="submit">Search</button>
 		<a href="{{ path('app_options_index') }}">Reset</a>
 	</form>
 
+	<!-- Tableau listant toutes les options -->
 	<table class="table">
 		<thead>
 			<tr>
@@ -38,16 +50,26 @@
 		<tbody>
 			{% for option in options %}
 				<tr>
+					<!-- Identifiant -->
 					<td>{{ option.id }}</td>
+
+					<!-- Nom de l’option -->
 					<td>{{ option.name }}</td>
+
+					<!-- Description de l’option -->
 					<td>{{ option.description }}</td>
+
+					<!-- Type (catégorie) -->
 					<td>{{ option.type }}</td>
+
+					<!-- Actions : voir et éditer -->
 					<td>
 						<a href="{{ path('app_options_show', {'id': option.id}) }}">show</a>
 						<a href="{{ path('app_options_edit', {'id': option.id}) }}">edit</a>
 					</td>
 				</tr>
 			{% else %}
+				<!-- Message si aucune option trouvée -->
 				<tr>
 					<td colspan="5">no records found</td>
 				</tr>
@@ -55,5 +77,6 @@
 		</tbody>
 	</table>
 
+	<!-- Lien pour créer une nouvelle option -->
 	<a href="{{ path('app_options_new') }}">Create new</a>
 {% endblock %}

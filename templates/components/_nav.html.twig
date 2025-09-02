@@ -1,37 +1,48 @@
 <nav>
-    <ul>
-        <li>
-            <a href="#">Accueil</a>
-        </li>
-        <li>
-            <a href="{{ path('app_room_index') }}">Nos salles</a>
-        </li>
-        <li>
-            <a href="{{ path('app_reservations_index') }}">Réservations</a>
-        </li>
+    <ul class="menu">
+        <!-- Lien vers l'accueil -->
+        <li><a href="#">Accueil</a></li>
+
+        <!-- Lien vers la liste des salles -->
+        <li><a href="{{ path('app_room_index') }}">Nos salles</a></li>
+
+        <!-- Lien vers la liste des réservations -->
+        <li><a href="{{ path('app_reservations_index') }}">Réservations</a></li>
 
         {% if app.user %}
+            <!-- Si un utilisateur est connecté -->
             {% if is_granted('ROLE_ADMIN') %}
-                <li>
-                    <a href="{{ path('admin_index') }}">Tableau de bord</a>
-                </li>
+                <!-- Si c’est un administrateur, affichage du tableau de bord -->
+                <li><a href="{{ path('admin_index') }}">Tableau de bord</a></li>
             {% endif %}
 
-            <li>
-                <a href="#">Mon Profil</a>
-            </li>
-
-            <li>
-                <a href="{{ path('app_logout') }}">Se déconnecter</a>
-            </li>
+            <!-- Liens accessibles à tout utilisateur connecté -->
+            <li><a href="#">Mon Profil</a></li>
+            <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
         {% else %}
-            <li>
-                <a href="{{ path('app_login') }}">Se connecter</a>
-            </li>
-
-            <li>
-                <a href="{{ path('app_register') }}">S'inscrire</a>
-            </li>
+            <!-- Si aucun utilisateur connecté -->
+            <li><a href="{{ path('app_login') }}">Se connecter</a></li>
+            <li><a href="{{ path('app_register') }}">S'inscrire</a></li>
         {% endif %}
     </ul>
 </nav>
+
+<style>
+/* Style de la liste des menus */
+.menu {
+    list-style: none;          /* Retire les puces par défaut */
+    padding: 0;                /* Supprime la marge interne */
+    margin: 0;                 /* Supprime la marge externe */
+    display: flex;             /* Affiche les <li> en flexbox */
+    justify-content: center;   /* Centre horizontalement les liens */
+    gap: 60px;                 /* Espacement entre les liens */
+}
+
+/* Style des liens */
+.menu li a {
+    text-decoration: none;     /* Supprime le soulignement */
+    color: black;              /* Couleur du texte */
+    font-weight: bold;         /* Met le texte en gras */
+    font-size: 20px;           /* Taille du texte */
+}
+</style>

@@ -11,38 +11,49 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: RoomRepository::class)]
 class Room
 {
+    // Identifiant unique de la salle (clé primaire auto-incrémentée)
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    // Nom de la salle (ex: Salle A, Auditorium...)
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    // Localisation de la salle (ex: Bâtiment B, Étage 2...)
     #[ORM\Column(length: 255)]
     private ?string $location = null;
 
+    // Capacité d’accueil (nombre de personnes)
     #[ORM\Column]
     private ?int $capacity = null;
 
+    // Description détaillée de la salle
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
+    // Relation OneToMany : une salle peut avoir plusieurs réservations
     #[ORM\OneToMany(targetEntity: Reservations::class, mappedBy: 'roomId')]
     private Collection $reservations;
 
+    // Relation ManyToMany avec Options : une salle peut avoir plusieurs options
     #[ORM\ManyToMany(targetEntity: Options::class, inversedBy: 'rooms')]
-    #[ORM\JoinTable(name: 'room_options')]
+    #[ORM\JoinTable(name: 'room_options')] // Table de jointure personnalisée
     private Collection $options;
 
-    #[ORM\Column(length: 255, nullable: true)] // URL de la photo
+    // Nom de fichier ou URL de la photo associée à la salle (nullable)
+    #[ORM\Column(length: 255, nullable: true)] 
     private ?string $photo = null;
 
+    // Constructeur : initialise les collections (reservations et options)
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
         $this->options = new ArrayCollection();
     }
+
+    // --- Getters & Setters ---
 
     public function getId(): ?int
     {
@@ -57,7 +68,6 @@ class Room
     public function setName(string $name): static
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -69,7 +79,6 @@ class Room
     public function setLocation(string $location): static
     {
         $this->location = $location;
-
         return $this;
     }
 
@@ -81,7 +90,6 @@ class Room
     public function setCapacity(int $capacity): static
     {
         $this->capacity = $capacity;
-
         return $this;
     }
 
@@ -93,25 +101,29 @@ class Room
     public function setDescription(string $description): static
     {
         $this->description = $description;
-
         return $this;
     }
 
+    /**
+     * @return Collection<int, Reservations>
+     * Retourne toutes les réservations liées à cette salle
+     */
     public function getReservations(): Collection
     {
         return $this->reservations;
     }
 
+    // Ajoute une réservation à la salle et synchronise la relation
     public function addReservation(Reservations $reservation): static
     {
         if (!$this->reservations->contains($reservation)) {
             $this->reservations->add($reservation);
             $reservation->setRoomId($this);
         }
-
         return $this;
     }
 
+    // Supprime une réservation et casse la relation si nécessaire
     public function removeReservation(Reservations $reservation): static
     {
         if ($this->reservations->removeElement($reservation)) {
@@ -119,28 +131,31 @@ class Room
                 $reservation->setRoomId(null);
             }
         }
-
         return $this;
     }
 
+    /**
+     * @return Collection<int, Options>
+     * Retourne toutes les options associées à la salle
+     */
     public function getOptions(): Collection
     {
         return $this->options;
     }
 
+    // Ajoute une option à la salle
     public function addOption(Options $option): static
     {
         if (!$this->options->contains($option)) {
             $this->options->add($option);
         }
-
         return $this;
     }
 
+    // Supprime une option de la salle
     public function removeOption(Options $option): static
     {
         $this->options->removeElement($option);
-
         return $this;
     }
 
@@ -152,7 +167,6 @@ class Room
     public function setPhoto(?string $photo): static
     {
         $this->photo = $photo;
-
         return $this;
     }
 }
