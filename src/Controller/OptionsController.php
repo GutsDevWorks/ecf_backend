@@ -10,8 +10,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/options')]
+#[IsGranted('ROLE_ADMIN')] // Option : autoriser uniquement les admins
 final class OptionsController extends AbstractController
 {
     #[Route(name: 'app_options_index', methods: ['GET'])]
@@ -39,9 +41,17 @@ final class OptionsController extends AbstractController
         // Exécution de la requête et récupération des résultats
         $options = $qb->getQuery()->getResult();
 
+        // Pagination
+        $page = $request->query->getInt('page', 1);
+        $limit = 5; //Nombre salle par page
+        $options = $optionsRepository->paginateOptions($page, $limit, $qb);
+        $maxPage = ceil(count($options) / $limit);
+
         // Passage des résultats au template Twig
         return $this->render('options/index.html.twig', [
             'options' => $options,
+            'page' => $page,
+            'maxPage' => $maxPage,
         ]);
     }
 

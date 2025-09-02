@@ -1,0 +1,169 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon profil
+{% endblock %}
+
+{% block body %}
+	<h1>Mon profil</h1>
+
+	<p>Bonjour
+		{{user.firstname}}
+	</p>
+
+	<main>
+		<section>
+			<h2>Mes réservations</h2>
+
+			<table>
+				<thead>
+					<tr>
+						<th>Date de début</th>
+						<th>Date de fin</th>
+						<th>Validée le</th>
+						<th>Statut</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for reservation in reservations %}
+						<tr>
+							<td>{{reservation.startAt ? reservation.startAt|date('Y-m-d H:i:s') : '' }}</td>
+							<td>{{reservation.endAt ? reservation.endAt|date('Y-m-d H:i:s') : '' }}</td>
+							<td>{{reservation.validatedAt ? reservation.validatedAt|date('Y-m-d H:i:s') : '' }}</td>
+
+
+							<td style="border:1px solid #ccc; padding:8px;">
+								{% set label = reservation.reservationStatus is same as(true)
+                        ? 'Validée'
+                        : (reservation.reservationStatus is same as(false) ? 'Refusée' : 'En attente') %}
+								<span style="
+								display:inline-block;
+								padding:2px 8px;
+								border-radius:12px;
+								color:#fff;
+								font-size:12px;
+								background-color: {{ reservation.reservationStatus is same as(true) ? '#16a34a' : (reservation.reservationStatus is same as(false) ? '#dc2626' : '#f59e0b') }};">
+									{{ label }}
+								</span>
+							</td>
+
+							<td>
+								<a href="{{ path('app_reservations_edit', {'id': reservation.id}) }}">Modifier la réservation</a>
+								{% include 'reservations/_delete_form.html.twig' %}
+							</td>
+
+						</tr>
+					{% else %}
+						<tr>
+							<td>Aucune réservation pour le moment</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</section>
+
+		<aside>
+			<a href="{{ path('app_reservations_new') }}">Réserver une salle</a>
+		</aside>
+
+		<section>
+			<h2>Créneaux disponibles</h2>
+
+			{% if available is not empty %}
+				<div class="grid">
+					{% for roomName, slots in available %}
+						<div class="room-card">
+							<h4>{{roomName}}</h4>
+							{% if slots is not empty %}
+								<ul>
+									{% for slot in slots %}
+										<li>
+											Du
+											{{ slot.start|date('d/m/Y H:i') }}
+											au
+											{{ slot.end|date('d/m/y H:i') }}
+										</li>
+									{% endfor %}
+								</ul>
+							{% else %}
+								<p>Aucun créneau de libre pour cette salle.</p>
+							{% endif %}
+						</div>
+
+					</div>
+				{% endfor %}
+			{% else %}
+				<p>Aucune salle trouvée.</p>
+			{% endif %}
+		</section>
+	</main>
+
+	<style>
+		main {
+			padding: 1rem;
+			font-family: Arial, sans-serif;
+		}
+
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			margin-top: 1rem;
+			font-family: Arial, sans-serif;
+		}
+
+		thead {
+			background-color: #416d7eff;
+			color: white
+		}
+
+		thead th {
+			padding: 0.75rem;
+			text-align: left;
+		}
+
+		tbody td {
+			padding: 0.5rem 0.75rem;
+			border-bottom: 1px solid #ddd;
+		}
+
+		tbody tr:hover {
+			background-color: #f1f1f1;
+		}
+
+		a {
+			color: #0832a7ff;
+			text-decoration: none;
+		}
+
+		aside {
+			margin-top: 1rem;
+			font-size: 18px;
+			color: #0832a7ff;
+
+		}
+
+		.grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+			gap: 1rem;
+			margin-top: 1rem;
+		}
+
+		.room-card {
+			border: 1px solid #ccc;
+			border-radius: 8px;
+			padding: 1rem;
+			background-color: #f9f9f9;
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		}
+
+		.room-card h4 {
+			margin-top: 0;
+			font-size: 1.1rem;
+			border-bottom: 1px solid #ddd;
+			padding-bottom: 0.5rem;
+		}
+	</style>
+
+
+{% endblock %}

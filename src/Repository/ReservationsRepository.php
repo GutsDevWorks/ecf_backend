@@ -2,10 +2,11 @@
 
 namespace App\Repository;
 
-use App\Entity\Reservations;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use DateTimeImmutable;
+use App\Entity\Reservations;
+use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Reservations>
@@ -54,6 +55,16 @@ class ReservationsRepository extends ServiceEntityRepository
         ->getResult();
     }
 
+     // Pagination des résultats pour les salles
+    public function paginateReservations(int $page, int $limit): Paginator
+    {
+        return new Paginator($this
+            ->createQueryBuilder('r')
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit) // limite le nombre de résultats par page
+            ->getQuery()
+    );
+        }
     //    /**
     //     * @return Reservations[] Returns an array of Reservations objects
     //     */
