@@ -7,7 +7,7 @@
         <li><a href="{{ path('app_room_index') }}">Nos salles</a></li>
 
         <!-- Lien vers la liste des réservations -->
-        <li><a href="{{ path('app_reservations_index') }}">Réservations</a></li>
+        <li><a href="{{ path('app_reservations_new') }}">Réservations</a></li>
 
         {% if app.user %}
             <!-- Si un utilisateur est connecté -->
@@ -17,7 +17,7 @@
             {% endif %}
 
             <!-- Liens accessibles à tout utilisateur connecté -->
-            <li><a href="#">Mon Profil</a></li>
+            <li><a href="{{ path('app_user_profile') }}">Mon Profil</a></li>
             <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
         {% else %}
             <!-- Si aucun utilisateur connecté -->

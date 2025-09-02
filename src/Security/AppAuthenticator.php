@@ -63,8 +63,8 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($this->urlGenerator->generate('admin_index'));
         }
 
-        // Sinon, redirige vers la page principale des utilisateurs normaux
-        return new RedirectResponse($this->urlGenerator->generate('app_room_index'));
+        // Sinon, redirige vers la page de profil des utilisateurs normaux
+        return new RedirectResponse($this->urlGenerator->generate('app_user_profile'));
     }
 
 }
