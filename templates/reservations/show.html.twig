@@ -13,24 +13,24 @@
             </tr>
             <tr>
                 <th>Date de début</th>
-                <td>{{ reservation.startAt ? reservation.startAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ reservation.startAt ? reservation.startAt|date('d-m-Y H:i:s') : '' }}</td>
             </tr>
             <tr>
                 <th>Date de fin</th>
-                <td>{{ reservation.endAt ? reservation.endAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ reservation.endAt ? reservation.endAt|date('d-m-Y H:i:s') : '' }}</td>
             </tr>
             <tr>
                 <th>Fait le</th>
-                <td>{{ reservation.createdAt ? reservation.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ reservation.createdAt ? reservation.createdAt|date('d-m-Y H:i:s') : '' }}</td>
             </tr>
             <tr>
                 <th>Modifier le</th>
-                <td>{{ reservation.updatedAt ? reservation.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ reservation.updatedAt ? reservation.updatedAt|date('d-m-Y H:i:s') : '' }}</td>
             </tr>
 
             <tr>
                 <th>Valider le</th>
-                <td>{{ reservation.validatedAt ? reservation.validatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ reservation.validatedAt ? reservation.validatedAt|date('d-m-Y H:i:s') : '' }}</td>
             </tr>
             <tr>
                 <th>Status</th>

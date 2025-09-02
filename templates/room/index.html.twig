@@ -101,11 +101,12 @@
 
 					<!-- Affiche photo si disponible -->
 					<td style="border:1px solid #ccc; padding:8px;">
-						{% if room.photo %}
+						{# {% if room.photo %}
 							<img src="{{ asset('room/img/' ~ room.photo) }}" alt="{{ room.name }}" width="200">
 						{% else %}
 							<em>Aucune photo</em>
-						{% endif %}
+						{% endif %} #}
+						<img src="/room/img/{{ room.photo }}" alt="{{ room.name }}" width="200">
 					</td>
 
 					<td style="border:1px solid #ccc; padding:8px;">{{ room.description }}</td>

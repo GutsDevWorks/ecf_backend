@@ -28,13 +28,14 @@
 			</tr>
 			<tr>
 				<th>Photo</th>
-				<!-- Si la salle a une photo enregistrée, on l'affiche -->
+				{# <!-- Si la salle a une photo enregistrée, on l'affiche -->
 				{% if room.photo %}
 					<img src="{{ asset('room/img/' ~ room.photo) }}" alt="{{ room.name }}" width="200">
 				{% else %}
 					<!-- Sinon, un message s'affiche-->
 					<em>Aucune photo</em>
-				{% endif %}
+				{% endif %} #}
+				<td><img src="/room/img/{{ room.photo }}" alt="{{ room.name }}" width="200"></td>
 			</tr>
 			<tr>
 				<th>Description</th>

@@ -18,25 +18,27 @@ class ReservationsType extends AbstractType
     {
         $builder
             ->add('startAt', DateTimeType::class, [
+                'label' => "Début de la réservation",
                 'widget' => 'single_text',
-                'html5' => true,
-                'constraints' => [
-                    new GreaterThanOrEqual([ 
-                    'value' => 'now', // refuse une date passée même si l’utilisateur modifie le HTML
-                    ]),
-                ],
+                // 'html5' => true,
+                // 'constraints' => [
+                //     new GreaterThanOrEqual([ 
+                //     'value' => 'now', // refuse une date passée même si l’utilisateur modifie le HTML
+                //     ]),
+                // ],
                 'attr' => [
                 'min' => (new \DateTime())->format('Y-m-d\TH:i'),  // pour empêcher la sélection passée côté navigateur
                     ],
             ])
             ->add('endAt', DateTimeType::class, [
+                'label' => "Fin de la réservation",
                 'widget' => 'single_text',
-                'html5' => true,
-                'constraints' => [
-                    new GreaterThanOrEqual([ 
-                    'value' => 'now', // refuse une date passée même si l’utilisateur modifie le HTML
-                    ]),
-                ],
+                // 'html5' => true,
+                // 'constraints' => [
+                //     new GreaterThanOrEqual([ 
+                //     'value' => 'now', // refuse une date passée même si l’utilisateur modifie le HTML
+                //     ]),
+                // ],
                 'attr' => [
                 'min' => (new \DateTime())->format('Y-m-d\TH:i'),  // pour empêcher la sélection passée côté navigateur
                     ],
@@ -58,6 +60,7 @@ class ReservationsType extends AbstractType
             // // ])
             ->add('roomId', EntityType::class, [
                 'class' => Room::class,
+                'label' => 'Salle',
                 'choice_label' => 'name',
             ])
         ;

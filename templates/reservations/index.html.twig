@@ -9,26 +9,26 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>StartAt</th>
-                <th>EndAt</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>ReminderSentAt</th>
-                <th>ValidatedAt</th>
-                <th>ReservationStatus</th>
-                <th>actions</th>
+                <th>Date de début</th>
+                <th>Date de fin</th>
+                <th>Créé</th>
+                <th>Mis à jour</th>
+                <th>Rappel envoyé à</th>
+                <th>Validé</th>
+                <th>Statut de réservation</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for reservation in reservations %}
             <tr>
                 <td>{{ reservation.id }}</td>
-                <td>{{ reservation.startAt ? reservation.startAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ reservation.endAt ? reservation.endAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ reservation.createdAt ? reservation.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ reservation.updatedAt ? reservation.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ reservation.reminderSentAt ? reservation.reminderSentAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ reservation.validatedAt ? reservation.validatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ reservation.startAt ? reservation.startAt|date('d-m-Y H:i') : '' }}</td>
+                <td>{{ reservation.endAt ? reservation.endAt|date('d-m-Y H:i') : '' }}</td>
+                <td>{{ reservation.createdAt ? reservation.createdAt|date('d-m-Y H:i') : '' }}</td>
+                <td>{{ reservation.updatedAt ? reservation.updatedAt|date('d-m-Y H:i') : '' }}</td>
+                <td>{{ reservation.reminderSentAt ? reservation.reminderSentAt|date('d-m-Y H:i') : '' }}</td>
+                <td>{{ reservation.validatedAt ? reservation.validatedAt|date('d-m-Y H:i') : '' }}</td>
                 <td>{{ reservation.reservationStatus is same as(true) ? 'Validée' : (reservation.reservationStatus is same as(false) ? 'Refusée' : 'En attente') }}</td>
                 <td>{{ reservation.userId.firstname }}</td>
                 <td>
@@ -44,7 +44,7 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_reservations_new') }}">Create new</a>
+    <a href="{{ path('app_reservations_new') }}">Créer un nouveau</a>
 
     <!-- Pagination -->
 	<div class="d-flex">

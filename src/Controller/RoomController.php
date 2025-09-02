@@ -90,6 +90,20 @@ final class RoomController extends AbstractController
 
         // Si formulaire soumis et valide -> on persiste et on enregistre en BDD
         if ($form->isSubmitted() && $form->isValid()) {
+            
+            // Récupérer le fichier envoyé par le formulaire (champ "photo")
+            $photoFile = $form->get('photo')->getData();
+            $photoFileName = $room->getId() . '.' . $photoFile->getClientOriginalExtension();
+
+            // Déplacer le fichier dans le dossier public/room/img
+            $photoFile->move(
+                $this->getParameter('kernel.project_dir').'/public/room/img',
+                $photoFileName
+            );
+
+            // Mise à jour du nom de fichier en BDD
+            $room->setPhoto($photoFileName);
+
             $entityManager->persist($room);
             $entityManager->flush();
 
