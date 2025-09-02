@@ -4,79 +4,100 @@
 {% endblock %}
 
 {% block body %}
-	<!-- Titre principal -->
-	<h1>Options</h1>
 
-	<!-- Formulaire de recherche et filtrage -->
-	<form method="get" action="{{ path('app_options_index') }}">
-		<div>
-			<!-- Champ texte pour rechercher par nom -->
-			<label for="name">Rechercher:</label>
-			<input type="text" id="name" name="name" value="{{ app.request.get('name') }}">
-		</div>
+  <h1 style="font-family:Arial, sans-serif; margin-bottom:15px; color:#333;">Options</h1>
 
-		<div>
-			<!-- Liste déroulante pour filtrer par type -->
-			<label for="type">Type:</label>
-			<select id="type" name="type">
-				<!-- Option par défaut = tous les types -->
-				<option value="">-- Tous les types --</option>
+  <!-- Formulaire de recherche et filtrage -->
+  <form method="get" action="{{ path('app_options_index') }}" style="background:#fff; padding:10px; border:1px solid #ccc; margin-bottom:20px;">
+    <div>
+      <!-- Champ texte pour rechercher par nom -->
+      <label for="name" style="display:block; margin:5px 0;">Rechercher :</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        value="{{ app.request.get('name') }}"
+        style="padding:4px; border:1px solid #ccc; border-radius:3px; width:220px;"
+      >
+    </div>
 
-				<!-- Liste des types prédéfinis -->
-				{% set types = ['Mobilier', 'Technologie', 'Confort', 'Confort physique', 'Accessibilité', 'Éclairage', 'Acoustique'] %}
-				{% for t in types %}
-					<!-- Si le type sélectionné correspond à l’option actuelle, on la marque "selected" -->
-					<option value="{{ t }}" {% if app.request.get('type') == t %} selected {% endif %}>{{ t }}</option>
-				{% endfor %}
-			</select>
-		</div>
+    <div style="margin-top:10px;">
+      <!-- Liste déroulante pour filtrer par type -->
+      <label for="type" style="display:block; margin:5px 0;">Type :</label>
+      <select id="type" name="type" style="padding:6px 8px; border:1px solid #ccc; border-radius:3px; width:240px; background:#fff;">
 
-		<!-- Boutons recherche et reset -->
-		<button type="submit">Search</button>
-		<a href="{{ path('app_options_index') }}">Reset</a>
-	</form>
+        <option value="">-- Tous les types --</option>
 
-	<!-- Tableau listant toutes les options -->
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Id</th>
-				<th>Name</th>
-				<th>Description</th>
-				<th>Type</th>
-				<th>actions</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for option in options %}
-				<tr>
-					<!-- Identifiant -->
-					<td>{{ option.id }}</td>
+        <!-- Liste des types -->
+        {% set types = ['Mobilier', 'Technologie', 'Confort', 'Confort physique', 'Accessibilité', 'Éclairage', 'Acoustique'] %}
+        {% for t in types %}
+          <!-- option d’un menu déroulant qui coche automatiquement la bonne option selon ce qui est déjà choisi -->
+          <option value="{{ t }}" {% if app.request.get('type') == t %} selected {% endif %}>{{ t }}</option>
+        {% endfor %}
+      </select>
+    </div>
 
-					<!-- Nom de l’option -->
-					<td>{{ option.name }}</td>
+    <!-- Boutons recherche et reset -->
+    <div>
+      <button type="submit" style="display:inline-block; margin-top:10px; padding:6px 10px; border:1px solid #007bff; border-radius:3px; background:#007bff; color:#fff; cursor:pointer;">
+        Rechercher
+      </button>
+      <a href="{{ path('app_options_index') }}" style="display:inline-block; margin-top:10px; padding:6px 10px; border:1px solid #6c757d; border-radius:3px; background:#6c757d; color:#fff; text-decoration:none;">
+        Réinitialiser
+      </a>
+    </div>
+  </form>
 
-					<!-- Description de l’option -->
-					<td>{{ option.description }}</td>
+  <!-- Tableau listant toutes les options -->
+  <table class="table" style="width:100%; border-collapse:collapse; background:#fff;">
+    <thead>
+      <tr>
+        <th style="border:1px solid #ccc; padding:8px; background:#eee;">Identifiant</th>
+        <th style="border:1px solid #ccc; padding:8px; background:#eee;">Nom</th>
+        <th style="border:1px solid #ccc; padding:8px; background:#eee;">Description</th>
+        <th style="border:1px solid #ccc; padding:8px; background:#eee;">Type</th>
+        <th style="border:1px solid #ccc; padding:8px; background:#eee;">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
 
-					<!-- Type (catégorie) -->
-					<td>{{ option.type }}</td>
+      <!-- On fait une boucle : pour chaque élément de la liste options, on exécute le code à l’intérieur.
+      Pour chaque option, crée une ligne de tableau » -->
+      {% for option in options %}
+        <tr style="border:1px solid #ccc;">
 
-					<!-- Actions : voir et éditer -->
-					<td>
-						<a href="{{ path('app_options_show', {'id': option.id}) }}">show</a>
-						<a href="{{ path('app_options_edit', {'id': option.id}) }}">edit</a>
-					</td>
-				</tr>
-			{% else %}
-				<!-- Message si aucune option trouvée -->
-				<tr>
-					<td colspan="5">no records found</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+          <td style="border:1px solid #ccc; padding:8px;">{{ option.id }}</td>
 
-	<!-- Lien pour créer une nouvelle option -->
-	<a href="{{ path('app_options_new') }}">Create new</a>
+
+          <td style="border:1px solid #ccc; padding:8px;">{{ option.name }}</td>
+
+          <td style="border:1px solid #ccc; padding:8px;">{{ option.description }}</td>
+
+          <td style="border:1px solid #ccc; padding:8px;">{{ option.type }}</td>
+
+          <!-- Actions : afficher et modifier -->
+          <td style="border:1px solid #ccc; padding:8px; text-align:center;">
+            <div style="display:flex; justify-content:center; gap:10px;">
+              <a href="{{ path('app_options_show', {'id': option.id}) }}" style="display:inline-block; padding:6px 12px; background:#007bff; color:#fff; border-radius:3px; text-decoration:none;">
+                Afficher
+              </a>
+              <a href="{{ path('app_options_edit', {'id': option.id}) }}" style="display:inline-block; padding:6px 12px; background:#ffc107; color:#000; border-radius:3px; text-decoration:none;">
+                Modifier
+              </a>
+            </div>
+          </td>
+        </tr>
+      {% else %}
+        <!-- Message si aucune option trouvée -->
+        <tr>
+          <td colspan="5" style="text-align:center; padding:10px; color:#555;">Aucun enregistrement trouvé</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- Lien pour créer une nouvelle option -->
+  <a href="{{ path('app_options_new') }}" style="display:inline-block; margin-top:15px; padding:6px 12px; background:#28a745; color:#fff; border-radius:3px; text-decoration:none;">
+    Créer une nouvelle option
+  </a>
 {% endblock %}

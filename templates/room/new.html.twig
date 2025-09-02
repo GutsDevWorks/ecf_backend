@@ -1,11 +1,27 @@
+{# templates/room/new.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}New Room{% endblock %}
+{% block title %}Nouvelle salle{% endblock %}
 
 {% block body %}
-    <h1>Create new Room</h1>
 
-    {{ include('room/_form.html.twig') }}
+    <h1 style="font-family:Arial, sans-serif; margin-bottom:20px; color:#333; text-align:center;">
+        Créer une nouvelle salle
+    </h1>
 
-    <a href="{{ path('app_room_index') }}">back to list</a>
+    <!-- Bloc formulaire -->
+    <div style="background:#fff; padding:20px; border:1px solid #ccc; border-radius:4px;
+                max-width:600px; margin:0 auto 20px auto;">
+        {{ include('room/_form.html.twig') }}
+    </div>
+
+    <!-- Bouton retour -->
+    <div style="display:flex; justify-content:center; margin-top:15px;">
+        <a href="{{ path('app_room_index') }}"
+           style="display:inline-block; padding:8px 14px; background:#6c757d; color:#fff;
+                  border-radius:4px; text-decoration:none; border:1px solid #6c757d;">
+            Retour à la liste
+        </a>
+    </div>
 {% endblock %}
+

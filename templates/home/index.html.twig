@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue!
+{% endblock %}
+
+{% block body %}
+	<div
+		style="min-height: 1080px; display: flex; flex-direction: column; text-align: center; padding: 40px 20px;">
+
+		<!-- Titre + phrase -->
+		<div>
+			<h1 style="margin-top: 40px; margin-bottom: 15px; font-size: 32px;">Bienvenue!</h1>
+			<p style="font-size: 18px; margin-bottom: 20px; color: #333;">
+				<strong>Vous pouvez réserver la salle de votre choix dès à présent.</strong>
+			</p>
+		</div>
+
+		<!-- Groupe des images -->
+		<div style="margin-top: 100px;">
+			
+			<!-- Ligne du haut (3 salles) -->
+				<div style="display: flex; justify-content: center; gap: 25px; margin-bottom: 25px;"> <figure style="margin: 0; max-width: 250px;">
+					<img src="{{ asset('room/img/salle_amethyste.png') }}" alt="Salle Améthyste" style="width: 100%; border-radius: 10px; display: block;">
+					<figcaption style="margin-top: 8px; font-weight: bold; font-size: 16px;">Salle Améthyste</figcaption>
+					<p style="margin: 3px 0; font-size: 13px;">Capacité : 10</p>
+				</figure>
+
+				<figure style="margin: 0; max-width: 250px;">
+					<img src="{{ asset('room/img/salle_diamant.png') }}" alt="Salle Diamant" style="width: 100%; border-radius: 10px; display: block;">
+					<figcaption style="margin-top: 8px; font-weight: bold; font-size: 16px;">Salle Diamant</figcaption>
+					<p style="margin: 3px 0; font-size: 13px;">Capacité : 50</p>
+				</figure>
+
+				<figure style="margin: 0; max-width: 250px;">
+					<img src="{{ asset('room/img/salle_emeraude.png') }}" alt="Salle Émeraude" style="width: 100%; border-radius: 10px; display: block;">
+					<figcaption style="margin-top: 8px; font-weight: bold; font-size: 16px;">Salle Émeraude</figcaption>
+					<p style="margin: 3px 0; font-size: 13px;">Capacité : 25</p>
+				</figure>
+			</div>
+
+			<!-- Ligne du bas (2 salles) -->
+			<div style="display: flex; justify-content: center; gap: 25px;">
+				<figure style="margin: 0; max-width: 250px;">
+					<img src="{{ asset('room/img/salle_rubis.png') }}" alt="Salle Rubis" style="width: 100%; border-radius: 10px; display: block;">
+					<figcaption style="margin-top: 8px; font-weight: bold; font-size: 16px;">Salle Rubis</figcaption>
+					<p style="margin: 3px 0; font-size: 13px;">Capacité : 15</p>
+				</figure>
+
+				<figure style="margin: 0; max-width: 250px;">
+					<img src="{{ asset('room/img/salle_saphir.png') }}" alt="Salle Saphir" style="width: 100%; border-radius: 10px; display: block;">
+					<figcaption style="margin-top: 8px; font-weight: bold; font-size: 16px;">Salle Saphir</figcaption>
+					<p style="margin: 3px 0; font-size: 13px;">Capacité : 80</p>
+				</figure>
+			</div>
+		</div>
+
+		<!-- Espace flexible en bas -->
+		<div style="flex-grow: 1;"></div>
+
+	</div>
+{% endblock %}

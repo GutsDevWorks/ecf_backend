@@ -1,38 +1,38 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Room
+{% block title %}Salle
 {% endblock %}
 
 {% block body %}
-	<!-- Titre de la page -->
-	<h1>Room</h1>
+
+	<h1>Salle</h1>
 
 	<!-- Tableau de détails d'une salle -->
 	<table class="table">
 		<tbody>
 			<tr>
-				<th>Id</th>
+				<th>Identifiant</th>
 				<td>{{ room.id }}</td>
 			</tr>
 			<tr>
-				<th>Name</th>
+				<th>Nom</th>
 				<td>{{ room.name }}</td>
 			</tr>
 			<tr>
-				<th>Location</th>
+				<th>Emplacement</th>
 				<td>{{ room.location }}</td>
 			</tr>
 			<tr>
-				<th>Capacity</th>
+				<th>Capacité</th>
 				<td>{{ room.capacity }}</td>
 			</tr>
 			<tr>
-				<th>Photos</th>
+				<th>Photo</th>
 				<!-- Si la salle a une photo enregistrée, on l'affiche -->
 				{% if room.photo %}
 					<img src="{{ asset('room/img/' ~ room.photo) }}" alt="{{ room.name }}" width="200">
 				{% else %}
-					<!-- Sinon, message alternatif -->
+					<!-- Sinon, un message s'affiche-->
 					<em>Aucune photo</em>
 				{% endif %}
 			</tr>
@@ -43,21 +43,35 @@
 		</tbody>
 	</table>
 
-	<!-- Boutons d’action (centrés) -->
-	<td style="border:1px solid #ccc; padding:8px; text-align:center;">
-		<div style="display:flex; justify-content:center; gap:10px;">
-			<!-- Bouton "Show" (ici redondant car on est déjà sur la page de détail) -->
-			<a href="{{ path('app_room_show', {'id': room.id}) }}" style="display:inline-block; padding:6px 12px; background:#007bff; color:#fff; border-radius:3px; text-decoration:none;">
-				Show
-			</a>
+    <!-- Boutons d’action (centrés) -->
+    <div style="border:1px solid #ccc; padding:8px; text-align:center;">
+        <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
+            <!-- Retour à la liste -->
+            <a href="{{ path('app_room_index') }}"
+               style="display:inline-block; padding:6px 12px; background:#6c757d; color:#fff; border-radius:3px; text-decoration:none; border:1px solid #6c757d;">
+                Retour à la liste
+            </a>
 
-			<!-- Bouton "Edit" pour modifier la salle -->
-			<a href="{{ path('app_room_edit', {'id': room.id}) }}" style="display:inline-block; padding:6px 12px; background:#ffc107; color:#000; border-radius:3px; text-decoration:none;">
-				Edit
-			</a>
-		</div>
-	</td>
+            <!-- Lien pour afficher cette option -->
+            <a href="{{ path('app_room_show', {'id': room.id}) }}"
+               style="display:inline-block; padding:6px 12px; background:#007bff; color:#fff; border-radius:3px; text-decoration:none; border:1px solid #007bff;">
+                Afficher
+            </a>
 
-	<!-- Inclusion du formulaire de suppression (room/_delete_form.html.twig) -->
-	{{ include('room/_delete_form.html.twig') }}
+            <!-- Lien pour modifier cette option -->
+            <a href="{{ path('app_room_edit', {'id': room.id}) }}"
+               style="display:inline-block; padding:6px 12px; background:#ffc107; color:#000; border-radius:3px; text-decoration:none; border:1px solid #ffc107;">
+                Modifier
+            </a>
+        </div>
+    </div>
+
+    <!-- Formulaire de suppression -->
+    <div style="margin-top:10px; display:flex; justify-content:center;">
+        <div style="display:inline-block;">
+            {{ include('room/_delete_form.html.twig', {
+                button_style: 'display:inline-block; padding:6px 12px; background:#dc3545; color:#fff; border-radius:3px; text-decoration:none; border:1px solid #dc3545; cursor:pointer;'
+            }) }}
+        </div>
+    </div>
 {% endblock %}

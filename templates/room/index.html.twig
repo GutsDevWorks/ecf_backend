@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block body %}
-	<!-- Titre principal -->
+
 	<h1 style="font-family:Arial, sans-serif; margin-bottom:15px; color:#333;">Salles</h1>
 
 	<!-- Formulaire de recherche / filtrage -->
@@ -77,10 +77,10 @@
 	<table style="width:100%; border-collapse:collapse; background:#fff;">
 		<thead>
 			<tr>
-				<th style="border:1px solid #ccc; padding:8px; background:#eee;">Id</th>
-				<th style="border:1px solid #ccc; padding:8px; background:#eee;">Name</th>
-				<th style="border:1px solid #ccc; padding:8px; background:#eee;">Location</th>
-				<th style="border:1px solid #ccc; padding:8px; background:#eee;">Capacity</th>
+				<th style="border:1px solid #ccc; padding:8px; background:#eee;">Identifiant</th>
+				<th style="border:1px solid #ccc; padding:8px; background:#eee;">Nom</th>
+				<th style="border:1px solid #ccc; padding:8px; background:#eee;">Emplacement</th>
+				<th style="border:1px solid #ccc; padding:8px; background:#eee;">Capacité</th>
 				<th style="border:1px solid #ccc; padding:8px; background:#eee;">Photo</th>
 				<th style="border:1px solid #ccc; padding:8px; background:#eee;">Description</th>
 				<th style="border:1px solid #ccc; padding:8px; background:#eee;">Actions</th>
@@ -89,16 +89,13 @@
 		<tbody>
 			{% for room in rooms %}
 				<tr style="border:1px solid #ccc;">
-					<!-- Identifiant -->
+
 					<td style="border:1px solid #ccc; padding:8px;">{{ room.id }}</td>
 
-					<!-- Nom -->
 					<td style="border:1px solid #ccc; padding:8px;">{{ room.name }}</td>
 
-					<!-- Localisation -->
 					<td style="border:1px solid #ccc; padding:8px;">{{ room.location }}</td>
 
-					<!-- Capacité -->
 					<td style="border:1px solid #ccc; padding:8px;">{{ room.capacity }}</td>
 
 					<!-- Affiche photo si disponible -->
@@ -110,17 +107,16 @@
 						{% endif %}
 					</td>
 
-					<!-- Description -->
 					<td style="border:1px solid #ccc; padding:8px;">{{ room.description }}</td>
 
-					<!-- Actions (voir + modifier) -->
+					<!-- Actions (afficher + modifier) -->
 					<td style="border:1px solid #ccc; padding:8px; text-align:center;">
 						<div style="display:flex; justify-content:center; gap:10px;">
 							<a href="{{ path('app_room_show', {'id': room.id}) }}" style="display:inline-block; padding:6px 12px; background:#007bff; color:#fff; border-radius:3px; text-decoration:none;">
-								Show
+								Afficher
 							</a>
 							<a href="{{ path('app_room_edit', {'id': room.id}) }}" style="display:inline-block; padding:6px 12px; background:#ffc107; color:#000; border-radius:3px; text-decoration:none;">
-								Edit
+								Modifier
 							</a>
 						</div>
 					</td>
@@ -128,7 +124,7 @@
 			{% else %}
 				<!-- Message si aucune salle trouvée -->
 				<tr>
-					<td colspan="7" style="text-align:center; padding:10px; color:#555;">no records found</td>
+					<td colspan="7" style="text-align:center; padding:10px; color:#555;">Aucun enregistrement trouvé</td>
 				</tr>
 			{% endfor %}
 		</tbody>
@@ -136,6 +132,6 @@
 
 	<!-- Bouton pour créer une nouvelle salle -->
 	<a href="{{ path('app_room_new') }}" style="display:inline-block; margin-top:15px; padding:6px 12px; background:#28a745; color:#fff; border-radius:3px; text-decoration:none;">
-		Create new
+		Créer une nouvelle salle
 	</a>
 {% endblock %}

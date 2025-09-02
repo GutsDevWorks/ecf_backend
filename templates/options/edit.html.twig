@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Options{% endblock %}
+{% block title %}Modifier les options{% endblock %}
 
 {% block body %}
-    <h1>Edit Options</h1>
+    <h1>Modifier les options</h1>
 
     {{ include('options/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_options_index') }}">back to list</a>
+    <a href="{{ path('app_options_index') }}">Retour à la liste</a>
 
     {{ include('options/_delete_form.html.twig') }}
 {% endblock %}
