@@ -1,1 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle réservation{% endblock %}
+
+{% block body %}
+    <h1>Nouvelle réservation</h1>
+
+    {{ include('reservations/_form.html.twig') }}
+
+    <a href="{{ path('aapp_user_profile') }}">Retour au profil</a>
+{% endblock %}
 

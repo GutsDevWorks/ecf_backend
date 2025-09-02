@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reservations{% endblock %}
+
+{% block body %}
+    <h1>Reservations</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ reservation.id }}</td>
+            </tr>
+            <tr>
+                <th>Date de début</th>
+                <td>{{ reservation.startAt ? reservation.startAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Date de fin</th>
+                <td>{{ reservation.endAt ? reservation.endAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Fait le</th>
+                <td>{{ reservation.createdAt ? reservation.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Modifier le</th>
+                <td>{{ reservation.updatedAt ? reservation.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+
+            <tr>
+                <th>Valider le</th>
+                <td>{{ reservation.validatedAt ? reservation.validatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ reservation.reservationStatus is same as(true) ? 'Validée' : (reservation.reservationStatus is same as(false) ? 'Refusée' : 'En attente') }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_user_profile') }}">Retour au profil</a>
+
+    <a href="{{ path('app_reservations_edit', {'id': reservation.id}) }}">Modifier</a>
+
+    {{ include('reservations/_delete_form.html.twig') }}
+{% endblock %}
