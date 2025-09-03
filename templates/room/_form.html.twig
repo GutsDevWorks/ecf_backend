@@ -1,4 +1,10 @@
-{{ form_start(form) }}
+{#}
+Modification du formulaire pour gérer l'affichage et le traitement du formulaire avec le script js pour une gestion depuis le dashboard Admin. 'action' empêche que Symfony le laisse sur null et path pointe vers la route de création de salle. Si on est dans le cadre de la création de salle on appel la route app_room_new, si on est dans le cadre de la modification on appel la route app_room_edit.
+{#}
+
+    {#} Mode Edition {#}
+    {{ form_start(form, {
+        'attr': {'class': 'admin-ajax-form', 'data-turbo': 'false'}, 'action': room.id ? path('app_room_edit', {id: room.id}) : path('app_room_new') }) }}
     {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+        <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+    {{ form_end(form) }}

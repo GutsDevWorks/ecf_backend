@@ -24,26 +24,26 @@ class RoomController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $em): Response
-    {
-        $room = new Room();
-        $form = $this->createForm(RoomType::class, $room);
-        $form->handleRequest($request);
+    // #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
+    // public function new(Request $request, EntityManagerInterface $em): Response
+    // {
+    //     $room = new Room();
+    //     $form = $this->createForm(RoomType::class, $room);
+    //     $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($room);
-            $em->flush();
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         $em->persist($room);
+    //         $em->flush();
 
-            return $this->redirectToRoute('admin_room_index', [], Response::HTTP_SEE_OTHER);
-        }
+    //         return $this->redirectToRoute('admin_room_index', [], Response::HTTP_SEE_OTHER);
+    //     }
 
-        return $this->render('admin/room/new.html.twig', [
-            'room' => $room,
-            'form' => $form->createView(),
-        ]);
+    //     return $this->render('admin/room/new.html.twig', [
+    //         'room' => $room,
+    //         'form' => $form->createView(),
+    //     ]);
 
 
 
-    }
+    // }
 }

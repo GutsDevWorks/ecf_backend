@@ -1,4 +1,8 @@
-{{ form_start(form) }}
+{#}
+Modification du formulaire pour gérer l'affichage et le traitement du formulaire avec le escript js pour une gestion depuis le dashboard Admin. 'action' empêche que Symfony le laisse sur null et path pointe vers la route de création d'option ou de modification.
+{#}
+
+{{ form_start(form, {'attr': {'class': 'admin-ajax-form', 'data-turbo': 'false'}, 'action': option.id ? path('app_options_edit', {id: option.id}) : path('app_options_new') }) }}
     {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <button class="btn">{{ button_label|default('Enregistrer') }}</button>
 {{ form_end(form) }}

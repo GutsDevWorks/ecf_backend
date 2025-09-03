@@ -56,7 +56,7 @@ final class OptionsController extends AbstractController
     }
 
     #[Route('/new', name: 'app_options_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, OptionsRepository $optionsRepository): Response
     {
         // Création d'une nouvelle option
         $option = new Options();
@@ -70,13 +70,30 @@ final class OptionsController extends AbstractController
             $entityManager->persist($option);
             $entityManager->flush();
 
+            if($request->isXmlHttpRequest()) {
+                $options = $optionsRepository->findAll();
+                return $this->render('options/_liste_admin.html.twig', [
+                    'options' => $options
+                ]);
+            }
+
             return $this->redirectToRoute('app_options_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        // Condition permettant d'afficher une vue partielle directement dans le dashboard de l'admin.
+        // Si on utilise le lien classique /room/new il affichera le template complet (le code juste en dessous).
+
+        if ($request->isXmlHttpRequest()) {
+            return $this->render('options/_form_admin_container.html.twig', [
+                'option' => $option,
+                'form' => $form->createView()
+            ]);
         }
 
         // Sinon on affiche le formulaire
         return $this->render('options/new.html.twig', [
             'option' => $option,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 

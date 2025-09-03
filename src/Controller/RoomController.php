@@ -52,7 +52,7 @@ final class RoomController extends AbstractController
                 ->andWhere('o.name IN (:types)')
                 ->setParameter('types', $types)
                 ->groupBy('r.id')
-                ->having('COUNT(DISTINCT o.id) = :typesCount') // Vérifie que toutes les options sont présentes
+                ->having('COUNT(DISTINCT o.id) = :typesCount') // Vérifie que toutes les options sont présentes. :typesCount doit être de la même valeur que $types.
                 ->setParameter('typesCount', count($types));
         }
 
@@ -61,7 +61,7 @@ final class RoomController extends AbstractController
 
         // Pagination
         $page = $request->query->getInt('page', 1);
-        $limit = 2; //Nombre salle par page
+        $limit = 5; //Nombre salle par page
         $rooms = $roomRepository->paginateRoom($page, $limit, $qb);
         $maxPage = ceil(count($rooms) / $limit);
 
@@ -75,13 +75,13 @@ final class RoomController extends AbstractController
 
     #[Route('/new', name: 'app_room_new', methods: ['GET', 'POST'])]
     // #[IsGranted('ROLE_ADMIN')] // Option : autoriser uniquement les admins
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, RoomRepository $roomRepository): Response
     {
         // Vérifie si l'utilisateur est admin, sinon redirection vers une page d'erreur
         if (!$this->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_error');
         }
-        
+
         // Création d'un nouvel objet Room
         $room = new Room();
         // Création du formulaire lié à l'entité
@@ -90,25 +90,45 @@ final class RoomController extends AbstractController
 
         // Si formulaire soumis et valide -> on persiste et on enregistre en BDD
         if ($form->isSubmitted() && $form->isValid()) {
-            
-            // Récupérer le fichier envoyé par le formulaire (champ "photo")
-            $photoFile = $form->get('photo')->getData();
-            $photoFileName = $room->getId() . '.' . $photoFile->getClientOriginalExtension();
 
-            // Déplacer le fichier dans le dossier public/room/img
-            $photoFile->move(
-                $this->getParameter('kernel.project_dir').'/public/room/img',
-                $photoFileName
-            );
-
-            // Mise à jour du nom de fichier en BDD
-            $room->setPhoto($photoFileName);
-
+            // Persistance de la salle afin d'obtenir l'ID pour gérer l'image
             $entityManager->persist($room);
             $entityManager->flush();
 
+            // Récupérer le fichier envoyé par le formulaire (champ "photo")
+            $photoFile = $form->get('photo')->getData();
+
+            if ($photoFile) {
+                $photoFileName = $room->getId() . '.' . $photoFile->getClientOriginalExtension();
+                // Déplacer le fichier dans le dossier public/room/img
+                $photoFile->move(
+                    $this->getParameter('kernel.project_dir') . '/public/room/img',
+                    $photoFileName
+                );
+                // Mise à jour du nom de fichier en BDD
+                $room->setPhoto($photoFileName);
+                $entityManager->flush();
+            }
+
+            if ($request->isXmlHttpRequest()) {
+                $rooms = $roomRepository->findAll();
+                return $this->render('room/_liste_admin.html.twig', [
+                    'rooms' => $rooms
+                ]);
+            }
+
             // Redirection vers la liste des salles
             return $this->redirectToRoute('app_room_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        // Condition permettant d'afficher une vue partielle directement dans le dashboard de l'admin.
+        // Si on utilise le lien classique /room/new il affichera le template complet (le code juste en dessous).
+
+        if ($request->isXmlHttpRequest()) {
+            return $this->render('room/_form_admin_container.html.twig', [
+                'room' => $room,
+                'form' => $form->createView()
+            ]);
         }
 
         // Sinon, on affiche le formulaire
@@ -139,16 +159,18 @@ final class RoomController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // Récupérer le fichier envoyé par le formulaire (champ "photo")
             $photoFile = $form->get('photo')->getData();
-            $photoFileName = $room->getId() . '.' . $photoFile->getClientOriginalExtension();
 
-            // Déplacer le fichier dans le dossier public/room/img
-            $photoFile->move(
-                $this->getParameter('kernel.project_dir').'/public/room/img',
-                $photoFileName
-            );
+            if ($photoFile) {
+                $photoFileName = $room->getId() . '.' . $photoFile->getClientOriginalExtension();
+                // Déplacer le fichier dans le dossier public/room/img
+                $photoFile->move(
+                    $this->getParameter('kernel.project_dir') . '/public/room/img',
+                    $photoFileName
+                );
 
-            // Mise à jour du nom de fichier en BDD
-            $room->setPhoto($photoFileName);
+                // Mise à jour du nom de fichier en BDD
+                $room->setPhoto($photoFileName);
+            }
 
             $entityManager->flush();
 

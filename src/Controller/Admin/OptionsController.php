@@ -24,23 +24,23 @@ class OptionsController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name:'new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $option = new Options();
-        $form = $this->createForm(OptionsType::class, $option);
-        $form->handleRequest($request);
+    // #[Route('/new', name:'new', methods: ['GET', 'POST'])]
+    // public function new(Request $request, EntityManagerInterface $entityManager): Response
+    // {
+    //     $option = new Options();
+    //     $form = $this->createForm(OptionsType::class, $option);
+    //     $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($option);
-            $entityManager->flush();
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         $entityManager->persist($option);
+    //         $entityManager->flush();
 
-            return $this->redirectToRoute('admin_options_index', [], Response::HTTP_SEE_OTHER);
-        }
+    //         return $this->redirectToRoute('admin_options_index', [], Response::HTTP_SEE_OTHER);
+    //     }
 
-        return $this->render('admin/options/new.html.twig', [
-            'option' => $option,
-            'form' => $form,
-        ]);
-    }
+    //     return $this->render('admin/options/new.html.twig', [
+    //         'option' => $option,
+    //         'form' => $form,
+    //     ]);
+    // }
 }
