@@ -11,13 +11,18 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use App\Repository\OptionsRepository;
 
 #[Route('/room')]
 final class RoomController extends AbstractController
 {
     #[Route(name: 'app_room_index', methods: ['GET'])]
-    public function index(RoomRepository $roomRepository, Request $request): Response
+    public function index(RoomRepository $roomRepository, Request $request, OptionsRepository $optionsRepository): Response
     {
+
+        // Récupère toutes les options disponibles (pour les filtres)
+        $options = $optionsRepository->findAll();
+
         // Récupère le paramètre "capacity" dans l'URL (GET), si numérique on le convertit en entier
         $capacity = $request->query->get('capacity');
         $capacity = is_numeric($capacity) ? (int)$capacity : null;
@@ -26,15 +31,6 @@ final class RoomController extends AbstractController
         $types = $request->query->all('type');
         if (!is_array($types)) {
             $types = [];
-        }
-
-        // Si la capacité est négative -> on affiche aucune salle et on envoie un message d’erreur
-        if ($capacity !== null && $capacity < 0) {
-            $this->addFlash('error', 'Veuillez saisir un nombre positif');
-
-            return $this->render('room/index.html.twig', [
-                'rooms' => [], // aucune salle affichée
-            ]);
         }
 
         // Création d'un QueryBuilder sur l'entité Room
@@ -65,11 +61,22 @@ final class RoomController extends AbstractController
         $rooms = $roomRepository->paginateRoom($page, $limit, $qb);
         $maxPage = ceil(count($rooms) / $limit);
 
+        // Si la capacité est négative -> on affiche aucune salle et on envoie un message d’erreur
+        if ($capacity !== null && $capacity < 0) {
+            $this->addFlash('error', 'Veuillez saisir un nombre positif');
+            return $this->render('room/index.html.twig', [
+            'rooms' => [],
+            'page' => $page,
+            'maxPage' => $maxPage,
+            'options' => $options, // Pour afficher les filtres
+            ]);
+        }
         // Affichage dans le template
-        return $this->render('room/index.html.twig', [
+            return $this->render('room/index.html.twig', [
             'rooms' => $rooms,
             'page' => $page,
             'maxPage' => $maxPage,
+            'options' => $options, // Pour afficher les filtres
         ]);
     }
 
