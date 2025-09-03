@@ -8,6 +8,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,13 +20,18 @@ class RoomType extends AbstractType
     {
         $builder
             // Champ texte : nom de la salle
-            ->add('name')
+            ->add('name', TextType::class, [
+                'label' => 'Nom de la salle'
+            ])
 
             // Champ texte : localisation (bâtiment, étage...)
-            ->add('location')
+            ->add('location',  TextType::class, [
+                'label' => 'Localisation'
+            ])
 
             // Champ numérique : capacité de la salle
             ->add('capacity', IntegerType::class, [
+                'label' => 'Capacité',
                 'constraints' => [
                     // Validation : valeur >= 0
                     new GreaterThanOrEqual([
@@ -43,6 +49,7 @@ class RoomType extends AbstractType
 
             // Champ fichier : upload d'une photo de la salle
             ->add('photo', FileType::class, [
+                'label' => 'Photo de la salle',
                 'mapped' => false, // non lié directement à l'entité (traité dans le contrôleur)
                 'constraints' => [
                     new Image() // Vérifie que le fichier est bien une image

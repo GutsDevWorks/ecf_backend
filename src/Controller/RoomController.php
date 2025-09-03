@@ -57,11 +57,11 @@ final class RoomController extends AbstractController
         }
 
         // Exécution de la requête et récupération des salles
-        // $rooms = $qb->getQuery()->getResult();
+        $rooms = $qb->getQuery()->getResult();
 
         // Pagination
         $page = $request->query->getInt('page', 1);
-        $limit = 2; //Nombre salle par page
+        $limit = 5; //Nombre salle par page
         $rooms = $roomRepository->paginateRoom($page, $limit, $qb);
         $maxPage = ceil(count($rooms) / $limit);
 
@@ -74,13 +74,13 @@ final class RoomController extends AbstractController
     }
 
     #[Route('/new', name: 'app_room_new', methods: ['GET', 'POST'])]
-    // #[IsGranted('ROLE_ADMIN')] // Option : autoriser uniquement les admins
+    #[IsGranted('ROLE_ADMIN')] // Option : autoriser uniquement les admins
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         // Vérifie si l'utilisateur est admin, sinon redirection vers une page d'erreur
-        if (!$this->isGranted('ROLE_ADMIN')) {
-            return $this->redirectToRoute('app_error');
-        }
+        // if (!$this->isGranted('ROLE_ADMIN')) {
+        //     return $this->redirectToRoute('app_error');
+        // }
         
         // Création d'un nouvel objet Room
         $room = new Room();
@@ -92,8 +92,8 @@ final class RoomController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             
             // Récupérer le fichier envoyé par le formulaire (champ "photo")
-            $photoFile = $form->get('photo')->getData();
-            $photoFileName = $room->getId() . '.' . $photoFile->getClientOriginalExtension();
+            $photoFile = $form->get('photo')->getData(); // récupère le photo
+            $photoFileName = $room->getName() . '.' . $photoFile->getClientOriginalExtension();  // nom du fichier de photo
 
             // Déplacer le fichier dans le dossier public/room/img
             $photoFile->move(
@@ -139,7 +139,7 @@ final class RoomController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // Récupérer le fichier envoyé par le formulaire (champ "photo")
             $photoFile = $form->get('photo')->getData();
-            $photoFileName = $room->getId() . '.' . $photoFile->getClientOriginalExtension();
+            $photoFileName = $room->getName() . '.' . $photoFile->getClientOriginalExtension();
 
             // Déplacer le fichier dans le dossier public/room/img
             $photoFile->move(

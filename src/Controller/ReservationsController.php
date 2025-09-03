@@ -19,7 +19,7 @@ final class ReservationsController extends AbstractController
     public function index(ReservationsRepository $reservationsRepository, Request $request): Response
     {
         $page = $request->query->getInt('page');
-        $limit = 5; //Nombre réservation par page
+        $limit = 10; //Nombre réservation par page
         $reservations = $reservationsRepository->paginateReservations($page, $limit);
         $maxPage = ceil(count($reservations) / $limit);
         return $this->render('reservations/index.html.twig', [
@@ -41,6 +41,16 @@ final class ReservationsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // condition pour vérifier la date
+            if ($reservation->getEndAt() <= $reservation->getStartAt()) {
+                $this->addFlash('error', 'La date de fin doit être postérieure à la date de début.');
+                return $this->render('reservations/new.html.twig', [
+                    'reservation' => $reservation,
+                    'form' => $form,
+                ]);
+            }
+
             $entityManager->persist($reservation);
             $entityManager->flush();
 
@@ -69,6 +79,16 @@ final class ReservationsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // condition pour vérifier la date
+            if ($reservation->getEndAt() <= $reservation->getStartAt()) {
+                $this->addFlash('error', 'La date de fin doit être postérieure à la date de début.');
+                return $this->render('reservations/new.html.twig', [
+                    'reservation' => $reservation,
+                    'form' => $form,
+                ]);
+            }
+            
             $entityManager->flush();
 
             return $this->redirectToRoute('app_reservations_index', [], Response::HTTP_SEE_OTHER);
