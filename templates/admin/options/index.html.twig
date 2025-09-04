@@ -79,6 +79,7 @@
               <a href="{{ path('app_options_edit', {'id': option.id}) }}" style="display:inline-block; padding:6px 12px; background:#ffc107; color:#000; border-radius:3px; text-decoration:none;">
                 Modifier
               </a>
+              {{ include('options/_delete_form.html.twig') }}
             </div>
           </td>
         </tr>

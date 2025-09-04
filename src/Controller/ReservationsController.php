@@ -41,10 +41,21 @@ final class ReservationsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($reservation->getEndAt() <= $reservation->getStartAt()) {
+                // dd('condition vraie');
+                $this->addFlash('error', 'La date de fin doit être postérieure à la date de début.');
+                
+                return $this->render('reservations/new.html.twig', [
+                    'reservation' => $reservation,
+                    'form' => $form,
+                ]);
+            }
+
             $entityManager->persist($reservation);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_reservations_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_user_profile', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('reservations/new.html.twig', [
@@ -69,9 +80,18 @@ final class ReservationsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($reservation->getEndAt() <= $reservation->getStartAt()) {
+                // dd('condition vraie');
+                $this->addFlash('error', 'La date de fin doit être postérieure à la date de début.');
+                return $this->render('reservations/new.html.twig', [
+                    'reservation' => $reservation,
+                    'form' => $form,
+                ]);
+            }
+
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_reservations_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_user_profile', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('reservations/edit.html.twig', [

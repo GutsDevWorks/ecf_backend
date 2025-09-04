@@ -51,6 +51,7 @@ class RoomType extends AbstractType
             ->add('photo', FileType::class, [
                 'label' => 'Photo de la salle',
                 'mapped' => false, // non lié directement à l'entité (traité dans le contrôleur)
+                'required' => false,
                 'constraints' => [
                     new Image() // Vérifie que le fichier est bien une image
                 ]

@@ -1,35 +1,123 @@
 {% block body %}
 <h1>Réservations en attente</h1>
 
-{% if pendingReservations is not empty %}
-	<table>
-		<thead>
-			<tr>
-				<th>Date de début</th>
-				<th>Date de fin</th>
-				<th>Faite le</th>
-				<th>Statut</th>
-				<th>Utilisateurs</th>
-			</tr>
-		</thead>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Date de début</th>
+            <th>Date de fin</th>
+            <th>Faite le</th>
+            <th>Mis à jour le</th>
+            <th>Statut</th>
+            <th>Utilisateur</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for reservation in pendingReservations %}
+            <tr>
+                <td>{{ reservation.startAt ? reservation.startAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ reservation.endAt ? reservation.endAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ reservation.createdAt ? reservation.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ reservation.updatedAt ? reservation.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
 
-		<tbody>
-			{% for reservation in pendingReservations %}
-				<tr>
-					<td>{{ reservation.startAt ? reservation.startAt|date('Y-m-d H:i:s') : '' }}</td>
-					<td>{{ reservation.endAt ? reservation.endAt|date('Y-m-d H:i:s') : '' }}</td>
-					<td>{{ reservation.createdAt ? reservation.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-					<td>
-                        {% if reservation.reservationStatus is null %}
-                        En attente
-                        {% endif %}
-                    </td>
-					<td>{{ reservation.userId.firstname }}</td>
-				</tr>
-			</tbody>
-		</tbody>
-	</table>
+                <!-- Statut -->
+                <td style="border:1px solid #ccc; padding:8px;">
+                    {% set label = reservation.reservationStatus is same as(true)
+                        ? 'Validée'
+                        : (reservation.reservationStatus is same as(false) ? 'Refusée' : 'En attente') %}
+                    <span style="
+                        display:inline-block;
+                        padding:2px 8px;
+                        border-radius:12px;
+                        color:#fff;
+                        font-size:12px;
+                        background-color: {{ reservation.reservationStatus is same as(true) ? '#16a34a' : (reservation.reservationStatus is same as(false) ? '#dc2626' : '#f59e0b') }};">
+                        {{ label }}
+                    </span>
+                </td>
+
+                <td>{{ reservation.userId.firstname }}</td>
+
+                <!-- Actions uniquement si en attente -->
+                <td>
+                    {% if reservation.reservationStatus is null %}
+                        <form action="{{ path('admin_reservations_validate', {'id': reservation.id}) }}" method="post" style="display:inline">
+                            <button class="btn-validate" type="submit">Valider</button>
+                        </form>
+                        <form action="{{ path('admin_reservations_refuse', {'id': reservation.id}) }}" method="post" style="display:inline">
+                            <button class="btn-refuse" type="submit">Refuser</button>
+                        </form>
+                        <a href="{{ path('app_reservations_show', {'id': reservation.id}) }}">Consulter</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">Aucune réservation en attente</td>
+            </tr>
         {% endfor %}
-    {% endif %}
+    </tbody>
+</table>
 
+<aside>
+    <a href="{{ path('admin_index') }}">Retour au Tableau de bord</a>
+</aside>
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+        font-family: Arial, sans-serif;
+    }
+
+    thead {
+        background-color: #416d7eff;
+        color: white;
+    }
+
+    thead th {
+        padding: 0.75rem;
+        text-align: left;
+    }
+
+    tbody td {
+        padding: 0.5rem 0.75rem;
+        border-bottom: 1px solid #ddd;
+    }
+
+    tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .btn-validate {
+        padding: 4px 8px;
+        background-color: #16a34a;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        margin-right: 5px;
+    }
+
+    .btn-refuse {
+        padding: 4px 8px;
+        background-color: #dc2626;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        margin-right: 5px;
+    }
+
+    a {
+        color: #19528fff;
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+</style>
 {% endblock %}

@@ -39,6 +39,9 @@ final class RoomController extends AbstractController
 
             return $this->render('room/index.html.twig', [
                 'rooms' => [], // aucune salle affichée
+                'page' => 1,
+                'maxPage' => 1,
+                'options' => $options,
             ]);
         }
 
@@ -70,16 +73,7 @@ final class RoomController extends AbstractController
         $rooms = $roomRepository->paginateRoom($page, $limit, $qb);
         $maxPage = ceil(count($rooms) / $limit);
 
-        // Si la capacité est négative -> on affiche aucune salle et on envoie un message d’erreur
-        if ($capacity !== null && $capacity < 0) {
-            $this->addFlash('error', 'Veuillez saisir un nombre positif');
-            return $this->render('room/index.html.twig', [
-            'rooms' => [],
-            'page' => $page,
-            'maxPage' => $maxPage,
-            'options' => $options, // Pour afficher les filtres
-            ]);
-        }
+
         // Affichage dans le template
             return $this->render('room/index.html.twig', [
             'rooms' => $rooms,
