@@ -30,9 +30,9 @@
 
         <!-- Liste des types -->
         {% set types = ['Mobilier', 'Technologie', 'Confort', 'Confort physique', 'Accessibilité', 'Éclairage', 'Acoustique'] %}
-        {% for t in types %}
+        {% for type in types %}
           <!-- option d’un menu déroulant qui coche automatiquement la bonne option selon ce qui est déjà choisi -->
-          <option value="{{ t }}" {% if app.request.get('type') == t %} selected {% endif %}>{{ t }}</option>
+          <option value="{{ type }}" {% if app.request.get('type') == type %} selected {% endif %}>{{ type }}</option>
         {% endfor %}
       </select>
     </div>
@@ -103,7 +103,7 @@
 	{# <!-- Lien pour créer une nouvelle option -->
 	<a href="{{ path('app_options_new') }}">Create new</a> #}
 
-	<!-- Pagination -->
+	{# <!-- Pagination -->
 	<div class="d-flex">
 		{% if page > 1 %}
 			<a href="{{ path('app_options_index', {page: page - 1}) }}" class="btn btn-secondary"> Précédente</a>
@@ -114,5 +114,24 @@
 		{% if page < maxPage %}
 			<a href="{{ path('app_options_index', {page: page + 1}) }}" class="btn btn-secondary"> Suivante</a>
 		{% endif %}
-	</div>
+	</div> #}
+
+{# Nouveau bloc Pagination (conserve les filtres name/type) #}  {#AJOUTER PAR ODILE#}
+{% set q = {
+  name: app.request.get('name'),
+  type: app.request.get('type')
+} %}
+
+<div class="d-flex" style="gap:10px; align-items:center; margin-top:10px;">
+  {% if page > 1 %}
+    <a href="{{ path('app_options_index', q|merge({page: page - 1})) }}" class="btn btn-secondary">Précédente</a>
+  {% endif %}
+
+  <span>{{ page }} / {{ maxPage }}</span>
+
+  {% if page < maxPage %}
+    <a href="{{ path('app_options_index', q|merge({page: page + 1})) }}" class="btn btn-secondary">Suivante</a>
+  {% endif %}
+</div> 
+
 {% endblock %}

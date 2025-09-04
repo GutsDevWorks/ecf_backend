@@ -4,13 +4,14 @@ namespace App\Form;
 
 use App\Entity\Room;
 use App\Entity\User;
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Entity\Reservations;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
+
 
 class ReservationsType extends AbstractType
 {
@@ -20,12 +21,6 @@ class ReservationsType extends AbstractType
             ->add('startAt', DateTimeType::class, [
                 'label' => "Début de la réservation",
                 'widget' => 'single_text',
-                // 'html5' => true,
-                // 'constraints' => [
-                //     new GreaterThanOrEqual([ 
-                //     'value' => 'now', // refuse une date passée même si l’utilisateur modifie le HTML
-                //     ]),
-                // ],
                 'attr' => [
                 'min' => (new \DateTime())->format('Y-m-d\TH:i'),  // pour empêcher la sélection passée côté navigateur
                     ],
@@ -33,11 +28,11 @@ class ReservationsType extends AbstractType
             ->add('endAt', DateTimeType::class, [
                 'label' => "Fin de la réservation",
                 'widget' => 'single_text',
-                // 'html5' => true,
                 // 'constraints' => [
-                //     new GreaterThanOrEqual([ 
-                //     'value' => 'now', // refuse une date passée même si l’utilisateur modifie le HTML
-                //     ]),
+                //     new Assert\GreaterThan([
+                //         'propertyPath' => 'startAt',
+                //         'message' => 'La date de fin doit être postérieure à la date de début.'
+                //     ])
                 // ],
                 'attr' => [
                 'min' => (new \DateTime())->format('Y-m-d\TH:i'),  // pour empêcher la sélection passée côté navigateur

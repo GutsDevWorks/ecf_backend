@@ -1,4 +1,3 @@
-
 {% extends 'base.html.twig' %}
 
 {% block title %}Salles
@@ -19,134 +18,158 @@
 		<div>
 			<!-- Filtres par équipements / options -->
 			<label style="display:block; margin:5px 0;">Équipements et critères d'ergonomie :</label>
-			<div style="border: 1px solid #ccc; padding: 15px; max-height: 400px; overflow-y: auto; background-color: #f9f9f9;">
+			{# <div style="border: 1px solid #ccc; padding: 15px; max-height: 300px; overflow-y: auto; background-color: #f9f9f9;"> #}
+			<div style="border: 1px solid #ccc; padding: 15px; max-height: 250px; overflow-y: auto; background-color: #f9f9f9;">  {#AJOUTER PAR ODILE#}
 
 				{% set selectedTypes = app.request.query.all('type') %}
 
-				<!-- Groupe 1 : Mobilier -->
-				<h4 style="margin:8px 0;">Équipements essentiels - Mobilier</h4>
-				<label style="display:block; margin:5px 0;">
-					<input type="checkbox" name="type[]" value="Tables modulables ou extensibles" {{ 'Tables modulables ou extensibles' in selectedTypes ? 'checked' : '' }}>
-					Tables modulables ou extensibles
-				</label>
-				<label style="display:block; margin:5px 0;">
-					<input type="checkbox" name="type[]" value="Chaises confortables et réglables" {{ 'Chaises confortables et réglables' in selectedTypes ? 'checked' : '' }}>
-					Chaises confortables et réglables
-				</label>
-				<label style="display:block; margin:5px 0;">
-					<input type="checkbox" name="type[]" value="Poufs ou sièges supplémentaires" {{ 'Poufs ou sièges supplémentaires' in selectedTypes ? 'checked' : '' }}>
-					Poufs ou sièges supplémentaires
-				</label>
+{% for option in options %}    {#DEBUT AJOUTER PAR ODILE#}
+<label>
+	<input type="checkbox" name ="type[]" value="{{ option.name }}"
+{{ option.name in selectedTypes ? 'checked' : ''}}>
+{{ option.name}}
+</label>
+{% endfor %}         
+</div>   {#FIN AJOUTER PAR ODILE#}
 
-				<!-- Groupe 2 : Technologie -->
-				<h4 style="margin:8px 0;">Technologie</h4>
-				<label style="display:block; margin:5px 0;">
-					<input type="checkbox" name="type[]" value="Écran ou vidéoprojecteur" {{ 'Écran ou vidéoprojecteur' in selectedTypes ? 'checked' : '' }}>
-					Écran ou vidéoprojecteur
-				</label>
-				<label style="display:block; margin:5px 0;">
-					<input type="checkbox" name="type[]" value="Connexion Wi-Fi haut débit" {{ 'Connexion Wi-Fi haut débit' in selectedTypes ? 'checked' : '' }}>
-					Connexion Wi-Fi haut débit
-				</label>
-				<label style="display:block; margin:5px 0;">
-					<input type="checkbox" name="type[]" value="Système de visioconférence" {{ 'Système de visioconférence' in selectedTypes ? 'checked' : '' }}>
-					Système de visioconférence
-				</label>
-				<label style="display:block; margin:5px 0;">
-					<input type="checkbox" name="type[]" value="Prises électriques et ports USB accessibles" {{ 'Prises électriques et ports USB accessibles' in selectedTypes ? 'checked' : '' }}>
-					Prises électriques et ports USB
-				</label>
-				<label style="display:block; margin:5px 0;">
-					<input type="checkbox" name="type[]" value="Tableau blanc ou interactif / paperboard" {{ 'Tableau blanc ou interactif / paperboard' in selectedTypes ? 'checked' : '' }}>
-					Tableau blanc / interactif / paperboard
-				</label>
-			</div>
-		</div>
 
-		<!-- Boutons de recherche et réinitialisation -->
-		<div>
-			<button type="submit" style="display:inline-block; margin-top:10px; padding:6px 10px; border:1px solid #007bff; border-radius:3px; background:#007bff; color:#fff; cursor:pointer;">
-				Rechercher
-			</button>
-			<a href="{{ path('app_room_index') }}" style="display:inline-block; margin-top:10px; padding:6px 10px; border:1px solid #6c757d; border-radius:3px; background:#6c757d; color:#fff; text-decoration:none;">
-				Réinitialiser
+				{# <!-- Groupe 1 : Mobilier -->
+								<h4 style="margin:8px 0;">Équipements essentiels - Mobilier</h4>
+								<label style="display:block; margin:5px 0;">
+									<input type="checkbox" name="type[]" value="Tables modulables ou extensibles" {{ 'Tables modulables ou extensibles' in selectedTypes ? 'checked' : '' }}>
+									Tables modulables ou extensibles
+								</label>
+								<label style="display:block; margin:5px 0;">
+									<input type="checkbox" name="type[]" value="Chaises confortables et réglables" {{ 'Chaises confortables et réglables' in selectedTypes ? 'checked' : '' }}>
+									Chaises confortables et réglables
+								</label>
+								<label style="display:block; margin:5px 0;">
+									<input type="checkbox" name="type[]" value="Poufs ou sièges supplémentaires" {{ 'Poufs ou sièges supplémentaires' in selectedTypes ? 'checked' : '' }}>
+									Poufs ou sièges supplémentaires
+								</label>
+				
+								<!-- Groupe 2 : Technologie -->
+								<h4 style="margin:8px 0;">Technologie</h4>
+								<label style="display:block; margin:5px 0;">
+									<input type="checkbox" name="type[]" value="Écran ou vidéoprojecteur" {{ 'Écran ou vidéoprojecteur' in selectedTypes ? 'checked' : '' }}>
+									Écran ou vidéoprojecteur
+								</label>
+								<label style="display:block; margin:5px 0;">
+									<input type="checkbox" name="type[]" value="Connexion Wi-Fi haut débit" {{ 'Connexion Wi-Fi haut débit' in selectedTypes ? 'checked' : '' }}>
+									Connexion Wi-Fi haut débit
+								</label>
+								<label style="display:block; margin:5px 0;">
+									<input type="checkbox" name="type[]" value="Système de visioconférence" {{ 'Système de visioconférence' in selectedTypes ? 'checked' : '' }}>
+									Système de visioconférence
+								</label>
+								<label style="display:block; margin:5px 0;">
+									<input type="checkbox" name="type[]" value="Prises électriques et ports USB accessibles" {{ 'Prises électriques et ports USB accessibles' in selectedTypes ? 'checked' : '' }}>
+									Prises électriques et ports USB
+								</label>
+								<label style="display:block; margin:5px 0;">
+									<input type="checkbox" name="type[]" value="Tableau blanc ou interactif / paperboard" {{ 'Tableau blanc ou interactif / paperboard' in selectedTypes ? 'checked' : '' }}>
+									Tableau blanc / interactif / paperboard
+								</label>
+							</div>
+						</div> #}
+
+				<!-- Boutons de recherche et réinitialisation -->
+				<div>
+					<button type="submit" style="display:inline-block; margin-top:10px; padding:6px 10px; border:1px solid #007bff; border-radius:3px; background:#007bff; color:#fff; cursor:pointer;">
+						Rechercher
+					</button>
+					<a href="{{ path('app_room_index') }}" style="display:inline-block; margin-top:10px; padding:6px 10px; border:1px solid #6c757d; border-radius:3px; background:#6c757d; color:#fff; text-decoration:none;">
+						Réinitialiser
+					</a>
+				</div>
+			</form>
+
+			<!-- Tableau des salles -->
+			<table style="width:100%; border-collapse:collapse; background:#fff;">
+				<thead>
+					<tr>
+						<th style="border:1px solid #ccc; padding:8px; background:#eee;">Identifiant</th>
+						<th style="border:1px solid #ccc; padding:8px; background:#eee;">Nom</th>
+						<th style="border:1px solid #ccc; padding:8px; background:#eee;">Emplacement</th>
+						<th style="border:1px solid #ccc; padding:8px; background:#eee;">Capacité</th>
+						<th style="border:1px solid #ccc; padding:8px; background:#eee;">Photo</th>
+						<th style="border:1px solid #ccc; padding:8px; background:#eee;">Description</th>
+						<th style="border:1px solid #ccc; padding:8px; background:#eee;">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for room in rooms %}
+						<tr style="border:1px solid #ccc;">
+
+							{# <td style="border:1px solid #ccc; padding:8px;">{{ room.id }}</td> #}
+							<td style="border:1px solid #ccc; padding:6px;">{{ room.id }}</td>    {#AJOUTER PAR ODILE#}
+
+							{# <td style="border:1px solid #ccc; padding:8px;">{{ room.name }}</td> #}
+							<td style="border:1px solid #ccc; padding:6px;">{{ room.name }}</td>    {#AJOUTER PAR ODILE#}
+
+							{# <td style="border:1px solid #ccc; padding:8px;">{{ room.location }}</td> #}
+							<td style="border:1px solid #ccc; padding:6px;">{{ room.location }}</td>   {#AJOUTER PAR ODILE#}
+
+							{# <td style="border:1px solid #ccc; padding:8px;">{{ room.capacity }}</td> #}
+							<td style="border:1px solid #ccc; padding:6px;">{{ room.capacity }}</td>   {#AJOUTER PAR ODILE#}
+
+							<!-- Affiche photo si disponible -->
+							{# <td
+								style="border:1px solid #ccc; padding:8px;"> #}
+								<td style="border:1px solid #ccc; padding:6px;">   {#AJOUTER PAR ODILE#}
+								{# {% if room.photo %}
+															<img src="{{ asset('room/img/' ~ room.photo) }}" alt="{{ room.name }}" width="200">
+														{% else %}
+															<em>Aucune photo</em>
+														{% endif %} #}
+								<img src="/room/img/{{ room.photo }}" alt="{{ room.name }}" width="200">
+							</td>
+
+							{# <td style="border:1px solid #ccc; padding:8px;">{{ room.description }}</td> #}
+							<td style="border:1px solid #ccc; padding:6px;">{{ room.description }}</td>    {#AJOUTER PAR ODILE#}
+
+							<!-- Actions (afficher + modifier) -->
+							{# <td style="border:1px solid #ccc; padding:8px; text-align:center;"> #}
+							<td style="border:1px solid #ccc; padding:6px; text-align:center;">     {#AJOUTER PAR ODILE#}
+								<div style="display:flex; justify-content:center; gap:10px;">
+									<a href="{{ path('app_room_show', {'id': room.id}) }}" style="display:inline-block; padding:6px 12px; background:#007bff; color:#fff; border-radius:3px; text-decoration:none;">
+										Afficher
+									</a>
+									<a href="{{ path('app_room_edit', {'id': room.id}) }}" style="display:inline-block; padding:6px 12px; background:#ffc107; color:#000; border-radius:3px; text-decoration:none;">
+										Modifier
+									</a>
+								</div>
+							</td>
+						</tr>
+					{% else %}
+						<!-- Message si aucune salle trouvée -->
+						<tr>
+							<td colspan="7" style="text-align:center; padding:10px; color:#555;">Aucun enregistrement trouvé</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+
+			<!-- Bouton pour créer une nouvelle salle -->
+			<a href="{{ path('app_room_new') }}" style="display:inline-block; margin-top:15px; padding:6px 12px; background:#28a745; color:#fff; border-radius:3px; text-decoration:none;">
+				Créer une nouvelle salle
 			</a>
-		</div>
-	</form>
 
-	<!-- Tableau des salles -->
-	<table style="width:100%; border-collapse:collapse; background:#fff;">
-		<thead>
-			<tr>
-				<th style="border:1px solid #ccc; padding:8px; background:#eee;">Identifiant</th>
-				<th style="border:1px solid #ccc; padding:8px; background:#eee;">Nom</th>
-				<th style="border:1px solid #ccc; padding:8px; background:#eee;">Emplacement</th>
-				<th style="border:1px solid #ccc; padding:8px; background:#eee;">Capacité</th>
-				<th style="border:1px solid #ccc; padding:8px; background:#eee;">Photo</th>
-				<th style="border:1px solid #ccc; padding:8px; background:#eee;">Description</th>
-				<th style="border:1px solid #ccc; padding:8px; background:#eee;">Actions</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for room in rooms %}
-				<tr style="border:1px solid #ccc;">
+			<!-- Pagination -->
+			<div class="d-flex">
+				{% if page > 1 %}
+					<a href="{{ path('app_room_index', {page: page - 1}) }}" class="btn btn-secondary">
+						Précédente</a>
+				{% endif %}
 
-					<td style="border:1px solid #ccc; padding:8px;">{{ room.id }}</td>
+				<span>
+					{{ page }}
+					|
+					{{ maxPage }}</span>
 
-					<td style="border:1px solid #ccc; padding:8px;">{{ room.name }}</td>
-
-					<td style="border:1px solid #ccc; padding:8px;">{{ room.location }}</td>
-
-					<td style="border:1px solid #ccc; padding:8px;">{{ room.capacity }}</td>
-
-					<!-- Affiche photo si disponible -->
-					<td style="border:1px solid #ccc; padding:8px;">
-						{# {% if room.photo %}
-							<img src="{{ asset('room/img/' ~ room.photo) }}" alt="{{ room.name }}" width="200">
-						{% else %}
-							<em>Aucune photo</em>
-						{% endif %} #}
-						<img src="/room/img/{{ room.photo }}" alt="{{ room.name }}" width="200">
-					</td>
-
-					<td style="border:1px solid #ccc; padding:8px;">{{ room.description }}</td>
-
-					<!-- Actions (afficher + modifier) -->
-					<td style="border:1px solid #ccc; padding:8px; text-align:center;">
-						<div style="display:flex; justify-content:center; gap:10px;">
-							<a href="{{ path('app_room_show', {'id': room.id}) }}" style="display:inline-block; padding:6px 12px; background:#007bff; color:#fff; border-radius:3px; text-decoration:none;">
-								Afficher
-							</a>
-							<a href="{{ path('app_room_edit', {'id': room.id}) }}" style="display:inline-block; padding:6px 12px; background:#ffc107; color:#000; border-radius:3px; text-decoration:none;">
-								Modifier
-							</a>
-						</div>
-					</td>
-				</tr>
-			{% else %}
-				<!-- Message si aucune salle trouvée -->
-				<tr>
-					<td colspan="7" style="text-align:center; padding:10px; color:#555;">Aucun enregistrement trouvé</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-
-	<!-- Bouton pour créer une nouvelle salle -->
-	<a href="{{ path('app_room_new') }}" style="display:inline-block; margin-top:15px; padding:6px 12px; background:#28a745; color:#fff; border-radius:3px; text-decoration:none;">
-		Créer une nouvelle salle
-	</a>
-
-	<!-- Pagination -->
-	<div class="d-flex">
-		{% if page > 1 %}
-			<a href="{{ path('app_room_index', {page: page - 1}) }}" class="btn btn-secondary"> Précédente</a>
-		{% endif %}
-
-		<span> {{ page }} | {{ maxPage }}</span>
-
-		{% if page < maxPage %}
-			<a href="{{ path('app_room_index', {page: page + 1}) }}" class="btn btn-secondary"> Suivante</a>
-		{% endif %}
-	</div>
-{% endblock %}
+				{% if page < maxPage %}
+					<a href="{{ path('app_room_index', {page: page + 1}) }}" class="btn btn-secondary">
+						Suivante</a>
+				{% endif %}
+			</div>
+		{% endblock %}

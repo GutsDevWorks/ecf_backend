@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ReservationsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Entity(repositoryClass: ReservationsRepository::class)]
 #[ORM\Table(name: 'reservations')]
@@ -250,4 +251,21 @@ class Reservations
     {
         $this->updatedAt = new \DateTimeImmutable('now');
     }
+
+
+    // // -------------------
+    // // Callbacks date
+    // // -------------------
+    // /**
+    // *  @Assert\Callback
+    //  */
+    // public function valiteDate(ExecutionContextInterface $context) { // vérifier la date de fin est après la date de début
+
+    //     if ($this->startAt && $this->endAt && $this->endAt <= $this->startAt) {
+    //         $context->buildViolation('La date de fin doit être postérieure à la date de début.')
+    //             ->atPath('endAt')
+    //             ->addViolation(); 
+    //         }
+    //     }
+
 }
